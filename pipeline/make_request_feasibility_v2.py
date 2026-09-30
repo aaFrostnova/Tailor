@@ -22,10 +22,11 @@ Writes request_feasibility_matrix.json, read by class_defs.py. Regenerate after 
 import json, sys, os, math, subprocess
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.paths import PROJECT as CF, WORKSPACE as SC
+from src.paths import PROJECT as CF, WORKSPACE as SC, require
 sys.path.insert(0, f"{CF}/solver")
 import watermark_smt_v2 as W
-sg = json.load(open(f"{SC}/surrogate_canonical.json")); base, fe, pi, D = sg["base"], sg["frontend"], sg["perimage"], sg["d"]
+sg = json.load(open(require(f"{SC}/surrogate_canonical.json", "the measured database",
+    "pipeline/make_canonical_surrogate.py writes it", "TAILOR_WORKSPACE"))); base, fe, pi, D = sg["base"], sg["frontend"], sg["perimage"], sg["d"]
 FR = ["VINE", "TrustMark", "VideoSeal"]; A = sg["attacks"]
 BUDGETS = [1e-1, 1e-2, 1e-4, 1e-6, 1e-9, 2.0 ** -37]
 BITS = [0, 10, 20, 37, 50]

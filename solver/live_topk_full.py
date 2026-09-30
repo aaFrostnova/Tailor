@@ -33,6 +33,13 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.paths import PROJECT as CF, WORKSPACE as SC, WMATTACKER_REPO as WMA
 for p in (CF, f"{CF}/solver", WMA, SC): sys.path.insert(0, p)
+if len(sys.argv) < 3:
+    sys.exit("usage: live_topk_full.py {enumerate|measure|measure_rank|walk|patch|xenv_mark} "
+             "<class 0-4> [args]\n"
+             "  enumerate <class> <n_requests>   candidates per request\n"
+             "  measure   <class> [n=100]        embed, attack and decode them (GPU)\n"
+             "  walk      <class> [n=100]        verdicts from what is measured\n"
+             "  patch     <class> <shard> <n>    re-solve what failed")
 MODE = sys.argv[1]; CLS = int(sys.argv[2]); ARGS = sys.argv[3:]; sys.argv = [sys.argv[0]]
 import watermark_smt_v2 as W
 import watermark_smt_topk as T

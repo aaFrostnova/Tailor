@@ -23,7 +23,7 @@ import sys, json, math, os
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.paths import WORKSPACE as SC
+from src.paths import WORKSPACE as SC, require
 
 IN = sys.argv[1] if len(sys.argv) > 1 else f"{SC}/surrogate_canonical.json"
 OUT = sys.argv[2] if len(sys.argv) > 2 else f"{SC}/surrogate_fitted.json"
@@ -90,7 +90,8 @@ def loo_error(x, y, name, inc):
         errs.append(abs(float(f(x[j])) - y[j]))
     return float(np.mean(errs)) if errs else None
 
-d = json.load(open(IN))
+d = json.load(open(require(IN, "the merged measurement table",
+    "pipeline/make_canonical_surrogate.py writes it; see Measuring your own fragments in the README", "TAILOR_WORKSPACE")))
 EMIT = 33            # dense re-sampling of the fitted curve; step 3 thins this adaptively
 report = {}; picked = {}
 for blk in ("base", "delta", "d", "e", "cap"):

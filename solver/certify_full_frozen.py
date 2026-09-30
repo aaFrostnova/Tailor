@@ -19,6 +19,8 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.paths import PROJECT as CF, WORKSPACE as SC, WMATTACKER_REPO as WMA
 for p in (CF, f"{CF}/solver", WMA, SC): sys.path.insert(0, p)
+if len(sys.argv) < 3:
+    sys.exit("usage: certify_full_frozen.py {measure|decode_xenv} <class 0-4> [args]")
 MODE = sys.argv[1]; CLS = int(sys.argv[2]); ARGS = sys.argv[3:]; sys.argv = [sys.argv[0]]
 import watermark_smt_v2 as W
 from eval_matrix import OursComposite

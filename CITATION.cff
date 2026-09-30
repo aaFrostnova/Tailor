@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: "Made to Measure: Designing Image Watermarks to Specification"
+message: "If you use this software, please cite the paper."
+type: software
+abstract: >-
+  TAILOR takes a deployment request, as an attack set, a false-positive budget, a PSNR
+  floor and a latency ceiling, and returns a watermark configuration that meets all four,
+  or reports that the library cannot. Configuration selection is an SMT problem over a
+  measured database of attack coverage, distortion and runtime.
+authors:
+  - name: "Anonymous"
+license: MIT

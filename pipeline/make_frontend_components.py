@@ -22,6 +22,7 @@ for p in (CF, f"{CF}/solver"):
     sys.path.insert(0, p)
 from src.shortened_bch import ShortenedBCH
 from src.image_pool import sample as _pool_sample, composition_of
+from src.paths import POOL
 from eval_matrix import GEO, OursComposite            # the SAME operators AND the SAME decoder
 
 N      = int(sys.argv[1]) if len(sys.argv) > 1 else 50
@@ -87,7 +88,9 @@ def _composite(frag_key, strength, flags):
 def r512(im): return im if im.size == (512, 512) else im.resize((512, 512))
 
 files = _pool_sample(N, offset=0)                 # all five sources, in the evaluation set's proportions
-assert len(files) == N, f"pool sample short: {len(files)}"
+assert len(files) == N, (
+    f"the image pool gave {len(files)} of {N} images. pipeline/build_wm_dataset.py builds it, "
+    f"and TAILOR_POOL says where it is: {POOL}")
 print("sources:", composition_of(files), flush=True)
 
 # Both sides are recorded in BIT ACCURACY, the unit the base curves are in and the unit the

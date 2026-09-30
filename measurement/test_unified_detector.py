@@ -120,7 +120,7 @@ class UnifiedDetectorTests(unittest.TestCase):
             return namespace[method_name]
         to512 = native_method('src/tiled_trustmark.py', 'TiledTrustMark', '_to512')
         win = native_method('src/tiled_trustmark.py', 'TiledTrustMark', '_win_llr')
-        frag_llr = native_method('scripts/defense/eval_matrix.py', 'OursComposite', '_frag_llr')
+        frag_llr = native_method('solver/eval_matrix.py', 'OursComposite', '_frag_llr')
         calls = []
         def getter(pil):
             calls.append((pil.mode, pil.size, pil.tobytes()))

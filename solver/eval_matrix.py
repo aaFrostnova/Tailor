@@ -93,6 +93,16 @@ def build_attack_one(dev):
         raise ValueError(a)
     return attack_one
 
+def _wbench(what):
+    """W-Bench's editing operators and its baseline method registry are not part of this
+    release: the operators need W-Bench's own edit instructions and masks, which are its
+    data rather than this repository's code. Say so where they are reached."""
+    raise ModuleNotFoundError(
+        f"{what} comes from W-Bench, which this release does not include. Every other "
+        f"attack and every fragment runs without it; the README says which entry points "
+        f"this affects.")
+
+
 # ---------------- in-env advanced attacks (editing / img2video), PIL -> list[PIL] ----------------
 _ADV_PIPES = {}
 ADV_ATTACKS = {"editing", "img2video"}
@@ -102,12 +112,9 @@ def is_adv(a):
 def apply_adv(a, pil, idx, dev="cuda"):
     """In-env advanced attack. Returns a LIST of attacked PILs (14 frames for img2video)."""
     if a == "editing":                                   # W-Bench global editing (InstructPix2Pix)
-        from wbench.editing import global_edit
-        return [global_edit(pil, dev, idx=idx)]
+        _wbench("the global editing attack")
     if a.startswith("local_edit"):                       # local_edit<frac> (masked img2img)
-        from wbench.editing import local_edit
-        frac = float(a.split("_")[2]) / 100.0 if a.count("_") >= 2 else 0.5
-        return [local_edit(pil, dev, frac=frac)]
+        _wbench("the local editing attack")
     if a == "img2video":                                 # Stable Video Diffusion, 14 frames
         if "svd" not in _ADV_PIPES:
             from diffusers import StableVideoDiffusionPipeline
@@ -474,10 +481,7 @@ def build_method(name, dev, tm_variant, geo=False, config=None):
         return OursComposite(dev, tm_variant, geo=geo, vine_variant="R", config=config)
     if name == "ours_b":                                   # Ours with the higher-PSNR VINE-B fragment
         return OursComposite(dev, tm_variant, geo=geo, vine_variant="B", config=config)
-    from wbench.methods import build_methods
-    reg = build_methods([name], dev)
-    if name not in reg: raise RuntimeError(f"method {name} failed to load")
-    return BaselineMethod(reg[name])
+    _wbench(f"the baseline method {name!r}")
 
 def main():
     p = argparse.ArgumentParser()

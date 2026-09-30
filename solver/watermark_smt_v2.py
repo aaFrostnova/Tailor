@@ -79,6 +79,9 @@ ALPHA=D["alpha_sweep"]           # {"0.3":..,"0.5":..,"0.7":..,"1.0":..}
 ALV=[0.3,0.5,0.7,1.0]            # discrete alpha choices (measured)
 SWEPT={"clean","jpeg25","crop75","noise"}
 BA_full=lambda f,a: F[f]["bit_acc"].get(a,0.0)
+# What the fixed-strength tables actually cover. `clean` is the reference column, not a
+# request. Asking for anything outside this set is refused rather than reported UNSAT.
+DISCRETE_ATTACKS=set().union(*(set(d["bit_acc"]) for d in F.values()))-{"clean"}
 
 # ---- reliable-bit CAPACITY axis (MEASURED soft-MI of 100 embedded, capacity_mi.py n=3000) ----
 # Orthogonal to min_ba (per-bit accuracy). Robust-ID capacity under a set of attacks =
@@ -584,6 +587,18 @@ def build(min_psnr,max_ms,attacks,min_ba,allow_resync,allow_nested,min_bits=0,re
         # the necessity experiment compares z3 against a grid enumerator that evaluates ONLY the
         # surrogate, so z3's feasible set must be driven by the surrogate alone (added below via
         # add_strength_order), not the real measured tables AND the surrogate at once.
+        # An attack with no row in the measured tables scores 0.0 through BA_full, which reads as
+        # "no fragment defends it" and comes back UNSAT. That is the wrong answer: UNSAT is a
+        # statement that the library cannot meet the request, and this would be a statement that
+        # the tables have never been asked. add_strength_order refuses the same case in the
+        # continuous path; refuse it here too.
+        unmeasured = sorted(set(attacks) - DISCRETE_ATTACKS)
+        if unmeasured:
+            raise ValueError(
+                f"no measured bit accuracy for {unmeasured} at a fixed strength; the request "
+                f"cannot be answered in this mode. Measured: {sorted(DISCRETE_ATTACKS)}. The "
+                f"continuous-strength mode the campaigns run reads a different table, "
+                f"inputs/surrogate_canonical.json, whose columns are listed in its 'attacks' key.")
         for a in attacks:
             opts=[]
             for f in list(F):
@@ -1195,7 +1210,10 @@ if __name__=="__main__":
             print(f"  PSNR≥{q}: {' + '.join(disp)}"+(f" +[{','.join(fe)}]" if fe else "")+f"  → PSNR≈{pv:.1f}dB · {len(ch)}frag · {float(ev(time).as_fraction()):.0f}ms")
         print("\nV2_DONE"); sys.exit(0)
     if a.attacks:
-        opt,*rest=build(a.min_psnr,a.max_ms,a.attacks,a.min_ba,not a.no_resync,not a.no_nested,a.min_bits)
+        try:
+            opt,*rest=build(a.min_psnr,a.max_ms,a.attacks,a.min_ba,not a.no_resync,not a.no_nested,a.min_bits)
+        except ValueError as e:      # an unmeasured attack is a statement, not a stack trace
+            sys.exit(f"\n{e}")
         opt.minimize(rest[4]); opt.maximize(rest[5]); opt.minimize(rest[6])
         _budget = (f"FPR<={a.fpr:g} (ba>={a.min_ba:.2f})" if _ba_src == "fpr" else f"ba>={a.min_ba}")
         print(f"\nQUERY custom: PSNR>={a.min_psnr} ms<={a.max_ms} {_budget} bits>={a.min_bits} {a.attacks}")

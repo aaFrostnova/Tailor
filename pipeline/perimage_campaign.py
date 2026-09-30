@@ -25,6 +25,8 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.paths import PROJECT as CF, WORKSPACE as SC, WMATTACKER_REPO as WMA
 for p in (CF, f"{CF}/solver", WMA, SC): sys.path.insert(0, p)
+if len(sys.argv) < 2:
+    sys.exit("usage: perimage_campaign.py {inprocess|stage|mildregen|ctrlregen|ring} [args]")
 MODE = sys.argv[1]; ARGS = sys.argv[2:]; sys.argv = [sys.argv[0]]
 OUT = f"{SC}/perimage"; os.makedirs(OUT, exist_ok=True)
 KEY = b"v5_key_encoder_master"; NB = 100

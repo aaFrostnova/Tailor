@@ -13,7 +13,7 @@ listed under "zero_filled_delta" -- the solver needs a value for every (g,f,a) i
 """
 import json, os, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.paths import PROJECT as CF, WORKSPACE as SC
+from src.paths import PROJECT as CF, WORKSPACE as SC, require
 sys.path.insert(0, f"{CF}/solver")
 from surrogate_model import Surrogate
 
@@ -90,7 +90,9 @@ MIN_N_PER_OVERLAY.update({q: 30 for q in _fex})
 # 9 strength knots rather than 5: a leave-one-out check put the 5-knot interpolation error at several
 # times the measurement noise for the cheap attack family, i.e. the curves were sampling-limited.
 MIN_N = 50          # smallest image count any campaign cell may contribute
-d = json.load(open(f"{SC}/surrogate_table_ext9.json"))
+d = json.load(open(require(f"{SC}/surrogate_table_ext9.json", "the 9-knot strength table",
+    "pipeline/extend_knots_campaign.py measures it, one fragment and strength at a time",
+    "TAILOR_WORKSPACE")))
 frags = d["fragments"]; ranges = d["ranges"]
 merged_from = {"base": "surrogate_table_ext9.json (9 strength knots, N=100)"}
 for name in OVERLAYS:

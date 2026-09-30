@@ -9,10 +9,12 @@ classes name, including the diffusion and adversarial ones, pooled over the cert
 import json, glob, math, collections, os, sys, statistics as st
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.paths import WORKSPACE as SC
+from src.paths import WORKSPACE as SC, require
 acc = collections.defaultdict(list)
 for K in ["C1", "C2", "C3", "C4", "C5"]:
-    R = json.load(open(f"{SC}/certify_classes_{K}.json"))
+    R = json.load(open(require(f"{SC}/certify_classes_{K}.json",
+        f"class {K}'s certification rows",
+        "solver/certify_full_frozen.py measure <class> writes them", "TAILOR_WORKSPACE")))
     n_default = R["n_img"]
     for r in R["rows"]:
         if r["verdict"] != "SAT": continue

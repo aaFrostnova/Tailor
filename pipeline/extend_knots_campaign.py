@@ -19,6 +19,8 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.paths import PROJECT as CF, WORKSPACE as SC, WMATTACKER_REPO as WMA
 for p in (CF, f"{CF}/solver", WMA, SC): sys.path.insert(0, p)
+if len(sys.argv) < 3:
+    sys.exit("usage: extend_knots_campaign.py {VINE|TrustMark|VideoSeal} <strength>")
 F = sys.argv[1]; s = float(sys.argv[2]); sys.argv = [sys.argv[0]]
 import watermark_smt_v2 as W
 from eval_matrix import OursComposite

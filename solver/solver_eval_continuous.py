@@ -15,7 +15,7 @@ Writes one shard of per-scenario records; merge with merge_solver_eval.py.
 """
 import sys, os, json, math, random, time
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.paths import PROJECT as CF, WORKSPACE as SC
+from src.paths import PROJECT as CF, WORKSPACE as SC, require
 sys.path.insert(0, f"{CF}/solver")
 import z3
 from surrogate_model import Surrogate
@@ -25,7 +25,9 @@ SHARD = int(sys.argv[1]) if len(sys.argv) > 1 else 0
 NSHARD = int(sys.argv[2]) if len(sys.argv) > 2 else 1
 N = int(sys.argv[3]) if len(sys.argv) > 3 else 2000
 
-sg = Surrogate.from_dict(json.load(open(f"{SC}/surrogate_canonical.json")))
+sg = Surrogate.from_dict(json.load(open(require(f"{SC}/surrogate_canonical.json", "the measured database",
+    "pipeline/make_canonical_surrogate.py writes it; see Measuring your own fragments in the README",
+    "TAILOR_WORKSPACE"))))
 MEASURED = set(sg.attacks)
 
 def db(D):

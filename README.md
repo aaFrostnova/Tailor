@@ -118,14 +118,23 @@ them all in one place.
 | `--min_psnr` | the fidelity floor, in dB |
 | `--max_ms` | the latency ceiling, in ms, embedding plus verification |
 
-The 20 attack names:
+The attacks this command measures, at a fixed fragment strength:
 
 ```
-jpeg25  blur  noise  bright  contrast  rs256  hflip  border20
-crop75  crop50  rot9  crop_jpeg
-vaeB  vaeC  regen  rinse2x
-ctrlregen_s03  ctrlregen_s05  ctrlregen_s07  unmarker
+jpeg25  jpeg50  blur  noise  bright  contrast
+crop90  crop75  crop50  rot9  rot30
+vaeB  vaeC  regen  rinse
+ctrlregen  ctrlregen_s03  ctrlregen_s05  ctrlregen_s07  unmarker
 ```
+
+Asking for anything else says so, rather than answering UNSAT, because the two
+are different answers: UNSAT means the library cannot meet the request, and an
+unmeasured attack means the tables were never asked.
+
+The continuous-strength mode the measurement campaigns run reads a different
+table, `inputs/surrogate_canonical.json`, over its own columns: `rinse2x`,
+`border20`, `crop_jpeg`, `hflip` and `rs256` in place of `rinse`, `crop90`,
+`rot30`, `jpeg50` and `ctrlregen`. Its `attacks` key lists them.
 
 `--fpr` sets the bit accuracy a verification has to reach, which the query line
 prints next to it: `1e-2` asks for 0.63, `1e-6` for 0.74, `1e-9` for 0.80.
@@ -201,9 +210,19 @@ the 7,321 requests the paper evaluates.
 ## Not included
 
 - The image pool. Rebuild it with `pipeline/build_wm_dataset.py`.
-- The `wbench` package, which `pipeline/strength_sweep.py` and the editing
-  attacks in `solver/eval_matrix.py` import. Those two entry points do not run;
-  everything else does.
+- W-Bench's editing operators and its baseline method registry. The operators
+  need W-Bench's own edit instructions and masks, which are its data rather than
+  this repository's code, so three things in `solver/eval_matrix.py` report that
+  and stop: the `editing` attack, the `local_edit*` attacks, and building a
+  baseline other than `ours`. Every other attack, every fragment and the whole
+  solver run without them. Solving a request is unaffected.
+
+## Tests
+
+```bash
+python measurement/test_unified_detector.py   # 19 tests, no models and no GPU
+python tools/smoke_test.py                    # the bundled database and the solver
+```
 
 ## License
 

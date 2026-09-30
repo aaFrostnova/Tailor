@@ -49,6 +49,24 @@ def build(fragments, dev, sb, tm_variant="B"):
     return {n: b[n]() for n in fragments}
 
 
+class PlainTrustMark:
+    """TrustMark carrying its own bits rather than the shared codeword: the standalone tier
+    the composite is OR-ed against, so that tier is a plain method and not a second view of
+    the fused one. It is TrustMarkFragment with the per-image permutation left off, which is
+    all that separates a fragment from the method it is built on."""
+
+    def __init__(self, variant, n_bits, device):
+        self.frag = TrustMarkFragment(method_name="trustmark_or", n_bits=n_bits,
+                                      model_type=variant, device=device)
+        self.n_bits = n_bits
+
+    def embed(self, pil, bits):
+        return self.frag.embed_with_target(pil, bits)
+
+    def decode(self, pil):
+        return (self.frag.raw_logits(pil) > 0).astype(np.uint8)
+
+
 def tmbits_for(image_id, n):
     return np.random.RandomState(hash(image_id) % (2**31)).randint(0, 2, n).astype(np.uint8)
 
@@ -162,8 +180,7 @@ def main():
     # add the standalone TrustMark OR-tier only when neither pixel geometry fragment is fused
     use_or_tm = "trustmark" not in args.fragments and "videoseal" not in args.fragments
     if use_or_tm:
-        from wbench.methods import TrustMarkMethod
-        tm = TrustMarkMethod(args.tm_variant)
+        tm = PlainTrustMark(args.tm_variant, sb.n, dev)
 
     if args.mode == "embed":
         os.makedirs(args.embed_dir, exist_ok=True)
