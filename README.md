@@ -21,8 +21,8 @@ in, the geometric stage if one is needed, and the PSNR and latency to expect.
 
 ## Install
 
-To solve requests you need three packages. The measured database the solver
-reads is already in `inputs/`, so there is nothing to download and no GPU.
+Solving requests needs three packages. The measured database is in `inputs/`,
+so there is nothing to download and no GPU.
 
 ```bash
 pip install z3-solver numpy scipy
@@ -39,7 +39,7 @@ python tools/fetch_models.py
 
 ## Models
 
-No model is shipped in this repository. Fetch them:
+Fetch the models:
 
 ```bash
 python tools/fetch_models.py            # the fragments and the regeneration attack, 9.3 GB
@@ -47,8 +47,7 @@ python tools/fetch_models.py --check    # list what is installed, download nothi
 python tools/fetch_models.py --only sd  # Stable Diffusion, for the regeneration attack
 ```
 
-VINE is 9 GB of that: its encoder is built on SD-Turbo, which comes with it. Pass
-`--only trustmark videoseal regen` to skip it, at 240 MB.
+VINE is 9 GB of that. `--only trustmark videoseal regen` skips it, at 240 MB.
 
 Source trees land in `external/`; weights go to the usual Hugging Face and PyTorch
 caches. Downloaded for you:
@@ -67,18 +66,16 @@ The Stable Diffusion repository is gated. Accept the terms on its model page and
 run `hf auth login`, or set `TAILOR_SD21` to a local copy. The `vaeB` and `vaeC`
 attacks need no model here: compressai fetches its own.
 
-Two you have to place yourself, because there is no public download to point at.
-`--check` prints the exact path each one goes to:
+Place these two yourself. `--check` prints the path each one goes to:
 
 | Component | Used for | File |
 | --- | --- | --- |
 | SyncSeal | the geometric stage that rectifies before decoding | `syncmodel.jit.pt` |
-| MaskWM | a baseline, nothing in the method | `D_128bits.pth` |
+| MaskWM | a baseline | `D_128bits.pth` |
 
-CtrlRegen and UnMarker conflict with this environment's dependencies, so they
-run out of process, through the drivers in `scripts/attack/`. Fetch each one's
-source tree, install it in its own environment following its own instructions,
-and name that environment's interpreter:
+CtrlRegen and UnMarker run out of process, through the drivers in
+`scripts/attack/`. Install each in its own environment, following its own
+instructions, and name that interpreter:
 
 ```bash
 python tools/fetch_models.py --only ctrlregen unmarker
@@ -127,19 +124,14 @@ vaeB  vaeC  regen  rinse
 ctrlregen  ctrlregen_s03  ctrlregen_s05  ctrlregen_s07  unmarker
 ```
 
-Asking for anything else says so, rather than answering UNSAT, because the two
-are different answers: UNSAT means the library cannot meet the request, and an
-unmeasured attack means the tables were never asked.
-
-The continuous-strength mode the measurement campaigns run reads a different
-table, `inputs/surrogate_canonical.json`, over its own columns: `rinse2x`,
-`border20`, `crop_jpeg`, `hflip` and `rs256` in place of `rinse`, `crop90`,
-`rot30`, `jpeg50` and `ctrlregen`. Its `attacks` key lists them.
+Any other name is reported as unmeasured. The continuous-strength mode the
+campaigns run has its own columns, listed in the `attacks` key of
+`inputs/surrogate_canonical.json`: `rinse2x`, `border20`, `crop_jpeg`, `hflip`
+and `rs256` in place of `rinse`, `crop90`, `rot30`, `jpeg50` and `ctrlregen`.
 
 `--fpr` sets the bit accuracy a verification has to reach, which the query line
 prints next to it: `1e-2` asks for 0.63, `1e-6` for 0.74, `1e-9` for 0.80.
-Tightening it alone can change the answer, because a configuration that runs
-more verification paths has to clear a stricter threshold.
+Tightening it alone can change the answer:
 
 ```bash
 python solver/watermark_smt_v2.py --attacks jpeg25 regen --fpr 1e-1 --min_psnr 40 --max_ms 300
@@ -148,7 +140,7 @@ python solver/watermark_smt_v2.py --attacks jpeg25 regen --fpr 1e-2 --min_psnr 4
 #   UNSAT
 ```
 
-`UNSAT` means no configuration in the library satisfies all four inputs at once:
+`UNSAT` means no configuration satisfies all four inputs at once:
 
 ```bash
 python solver/watermark_smt_v2.py --attacks jpeg25 crop75 crop50 rot9 regen rinse --fpr 1e-6 --min_psnr 46 --max_ms 200
@@ -160,9 +152,8 @@ or the other, not both.
 
 ## Validating on your own images
 
-The database was measured on one image population, which may not behave like
-yours. Live calibration runs the whole embed, attack and decode path on your
-images and deploys only what passes there:
+Live calibration runs the whole embed, attack and decode path on your own
+images and keeps only what passes there:
 
 ```bash
 python solver/live_topk_full.py enumerate <class> <n_requests>   # candidates per request
@@ -172,9 +163,9 @@ python solver/live_topk_full.py patch     <class> <shard> <n>    # re-solve what
 ```
 
 `measure` writes one record per configuration and attack under
-`$TAILOR_WORKSPACE/live_topk/cells/` and reuses whatever is already there, so
-the campaign is resumable and a configuration measured once is free for every
-later request that picks it.
+`$TAILOR_WORKSPACE/live_topk/cells/` and reuses what is already there, so a run
+resumes and a configuration measured once serves every later request that picks
+it.
 
 ## Measuring your own fragments
 
@@ -207,24 +198,23 @@ curves for the geometric stages, 181 per-image score sets behind those means,
 and the distortion, latency and capacity entries. `inputs/requests.json` holds
 the 7,321 requests the paper evaluates.
 
-## Not included
-
-- The image pool. Rebuild it with `pipeline/build_wm_dataset.py`.
-- W-Bench's editing operators and its baseline method registry. The operators
-  need W-Bench's own edit instructions and masks, which are its data rather than
-  this repository's code, so three things in `solver/eval_matrix.py` report that
-  and stop: the `editing` attack, the `local_edit*` attacks, and building a
-  baseline other than `ours`. Every other attack, every fragment and the whole
-  solver run without them. Solving a request is unaffected.
-
 ## Tests
 
+Both run on a fresh checkout with `z3-solver`, `numpy` and `scipy`, no models and
+no GPU:
+
 ```bash
-python measurement/test_unified_detector.py   # 19 tests, no models and no GPU
-python tools/smoke_test.py                    # the bundled database and the solver
+python tools/smoke_test.py                    # 19 tests, ~15 s
+python measurement/test_unified_detector.py   # 19 tests, ~1 s
 ```
+
+`smoke_test.py` checks the database's shape, the bit accuracy derived from each
+budget against the derivation the deployment uses, the answers shown above, that
+every attack listed here is accepted and anything else refused, and that no
+default location points outside the checkout. `test_unified_detector.py` checks
+the tiled decoder's preprocessing against the same-window raw route.
 
 ## License
 
-MIT, see `LICENSE`. The fragments and the attack models stay with their own
-projects under their own licenses and are not redistributed here.
+MIT, see `LICENSE`. The fragments and the attack models are under their own
+projects' licenses.
