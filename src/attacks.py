@@ -15,7 +15,7 @@ import io, os, tempfile
 import numpy as np
 from PIL import Image
 
-from src.paths import SD as _SD, CROSS_ENV_PYTHON as _CROSS_PY
+from src.paths import SD as _SD, CROSS_ENV_PYTHON as _CROSS_PY, PROJECT as _PROJECT
 
 # ---------------------------------------------------------------- geometry (pure PIL, no deps)
 # CONVENTION. Two conventions were in use and had to be reconciled; the one adopted here is the
@@ -196,12 +196,14 @@ def regen_pil(img, passes=1, dev="cuda", workdir=None):
 # ---------------------------------------------------------------- cross-environment attacks
 # CtrlRegen and UnMarker need their own conda environments, so they cannot be called in-process.
 # What CAN be centralised is how they are invoked, which is what drifted between run scripts.
+# `script` is absolute: the driver is in this checkout, while the interpreter belongs to
+# the attack's own environment, so neither side shares a working directory with the other.
 CROSS_ENV = {
     "ctrlregen": {"env": _CROSS_PY["ctrlregen"],
-                  "script": "scripts/attack/ctrlregen_batch.py",
+                  "script": os.path.join(_PROJECT, "scripts/attack/ctrlregen_batch.py"),
                   "default_step": 0.7, "sweep_steps": [0.1, 0.3, 0.5, 0.7, 0.9]},
     "unmarker":  {"env": _CROSS_PY["unmarker"],
-                  "script": "scripts/attack/unmarker_batch.py",
+                  "script": os.path.join(_PROJECT, "scripts/attack/unmarker_batch.py"),
                   "config": "attack_configs/Vine.yaml"},
 }
 

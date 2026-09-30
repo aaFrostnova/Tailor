@@ -69,12 +69,17 @@ WMATTACKER_REPO = _env("TAILOR_WMATTACKER_REPO", os.path.join(MODELS, "Watermark
 SD = {"sd21": _env("TAILOR_SD21", "stabilityai/stable-diffusion-2-1")}
 
 # CtrlRegen and UnMarker each need dependencies that conflict with this environment, so
-# they are run out of process. There is no default: the interpreter of the environment
-# each one was installed into has to be named.
+# they are run out of process, by scripts/attack/*_batch.py under the interpreter of the
+# environment each one was installed into. There is no default for those interpreters.
 CROSS_ENV_PYTHON = {
     "ctrlregen": _env("TAILOR_CTRLREGEN_PYTHON", ""),
     "unmarker":  _env("TAILOR_UNMARKER_PYTHON", ""),
 }
+CTRLREGEN_REPO = _env("TAILOR_CTRLREGEN_REPO", os.path.join(MODELS, "CtrlRegen"))
+# The semantic adapter and the spatial control network, whose two paths the batch driver
+# joins onto this directory exactly as CtrlRegen's own demo does.
+CTRLREGEN_CKPT = _env("TAILOR_CTRLREGEN_CKPT", os.path.join(MODELS, "ctrlregen_ckpt"))
+UNMARKER_REPO = _env("TAILOR_UNMARKER_REPO", os.path.join(MODELS, "ai-watermark"))
 
 # ---------------------------------------------------------------------- image pool
 # The measurement images. Rebuilt by pipeline/build_wm_dataset.py, not redistributed.

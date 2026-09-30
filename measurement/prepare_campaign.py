@@ -18,13 +18,16 @@ NFPA = 'nfpa_sd21_xy40_s10_v1'
 
 
 def verify_sources():
+    """Digest everything a campaign's numbers depend on: the fragments and the attacks, the
+    solver and the measurement harness, the two cross-environment attack drivers, and the
+    measured database and solver inputs they are all read against."""
     paths = set((CF / 'src').rglob('*.py'))
-    for folder in (CF/'scripts', CF/'scripts/defense', CF/'scripts/attack', SOURCE/'code', SC/'topk_capacity_output_20260910/code'):
+    for folder in (CF/'solver', CF/'measurement', CF/'pipeline', CF/'scripts/attack', SOURCE/'code'):
         paths.update(folder.glob('*.py'))
-    paths.add(SC/'topk_capacity_output_20260910/inputs/surrogate_canonical.json')
-    for name in ('smt_inputs.json','smt_inputs_composite.json','smt_inputs_full.json'):
-        paths.add(CF/'results/defense'/name)
-    return {str(p): digest(p) for p in sorted(paths)}
+    for name in ('surrogate_canonical.json', 'smt_inputs.json',
+                 'smt_inputs_composite.json', 'smt_inputs_full.json'):
+        paths.add(CF/'inputs'/name)
+    return {str(p): digest(p) for p in sorted(paths) if p.exists()}
 
 
 def verify_scope():

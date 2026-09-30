@@ -21,3 +21,7 @@ datasets
 # The rest are source trees rather than packages, so `python tools/fetch_models.py`
 # clones them and warms their weights: VINE and VideoSeal (fragments), WatermarkAttacker
 # (the regeneration attack). SyncSeal and MaskWM are placed by hand; the README says where.
+#
+# CtrlRegen and UnMarker are cloned too, but they are installed and run in their own
+# environments, from their own requirements, because their dependencies conflict with
+# these. scripts/attack/ drives them there; the README says how.

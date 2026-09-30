@@ -21,11 +21,15 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src import paths as M                                    # noqa: E402
 
+CTRLREGEN_WEIGHTS = "yepengliu/ctrlregen"                       # the two trained controls
+
 GIT = {
     "vine":      ("https://github.com/Shilin-LU/VINE.git", M.VINE_REPO),
     "videoseal": ("https://github.com/facebookresearch/videoseal.git", M.VIDEOSEAL_REPO),
     # the regeneration attack: `regen_pipe` and `wmattacker`, no weights of its own
     "regen":     ("https://github.com/XuandongZhao/WatermarkAttacker.git", M.WMATTACKER_REPO),
+    "ctrlregen": ("https://github.com/yepengliu/CtrlRegen.git", M.CTRLREGEN_REPO),
+    "unmarker":  ("https://github.com/andrekassis/ai-watermark.git", M.UNMARKER_REPO),
 }
 MANUAL = {
     "syncseal": (M.SYNCSEAL_JIT, "TAILOR_SYNCSEAL_JIT",
@@ -36,7 +40,8 @@ MANUAL = {
                   "`D_128bits.pth` from the MaskWM project, under a checkpoints/ directory "
                   "in its source tree. It is a baseline, so nothing in the method needs it."),
 }
-ALL = ["trustmark", "vine", "videoseal", "regen", "syncseal", "maskwm", "sd"]
+ALL = ["trustmark", "vine", "videoseal", "regen", "ctrlregen", "unmarker",
+       "syncseal", "maskwm", "sd"]
 
 
 def say(component, status, detail=""):
@@ -109,6 +114,35 @@ def do_videoseal(check):
     return w, f"{M.VIDEOSEAL_REPO}; {wd}" if w == "cached" else wd
 
 
+def do_ctrlregen(check):
+    """CtrlRegen: its source tree, and the semantic adapter and spatial control network it
+    trained. The public models it builds on download themselves, in its own environment."""
+    status, detail = clone(*GIT["ctrlregen"], check=check)
+    if status in ("missing", "failed"):
+        return status, detail
+    spatial = os.path.join(M.CTRLREGEN_CKPT, "spatialnet_ckp")
+    if os.path.isdir(spatial):
+        return "present", M.CTRLREGEN_REPO
+    if check:
+        return "missing", f"would download {CTRLREGEN_WEIGHTS} to {M.CTRLREGEN_CKPT}"
+    try:
+        from huggingface_hub import snapshot_download
+        snapshot_download(CTRLREGEN_WEIGHTS, local_dir=M.CTRLREGEN_CKPT)
+    except Exception as e:                                          # noqa: BLE001
+        return "failed", f"{CTRLREGEN_WEIGHTS}: {type(e).__name__}: {e}".replace("\n", " ")[:160]
+    return "cloned", f"{M.CTRLREGEN_REPO}; weights in {M.CTRLREGEN_CKPT}"
+
+
+def do_unmarker(check):
+    """UnMarker: its source tree. Its perceptual networks come from its own install, which
+    has to run in its own environment anyway."""
+    status, detail = clone(*GIT["unmarker"], check=check)
+    if status in ("missing", "failed"):
+        return status, detail
+    return status, (f"{detail}; run its install.sh and download_data_and_models.sh in its "
+                    "own environment, then set TAILOR_UNMARKER_PYTHON")
+
+
 def do_manual(component, _check):
     path, var, what = MANUAL[component]
     if os.path.exists(path):
@@ -137,6 +171,7 @@ def do_sd(check):
 
 HANDLERS = {"trustmark": do_trustmark, "vine": do_vine, "videoseal": do_videoseal,
             "regen": lambda c: clone(*GIT["regen"], check=c),
+            "ctrlregen": do_ctrlregen, "unmarker": do_unmarker,
             "syncseal": lambda c: do_manual("syncseal", c),
             "maskwm": lambda c: do_manual("maskwm", c), "sd": do_sd}
 DEFAULT = ["trustmark", "vine", "videoseal", "regen"]

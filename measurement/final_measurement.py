@@ -21,7 +21,7 @@ from final_holdout import (check_frozen, check_plan, check_signed, check_splits,
                            require, write_once)
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from src.paths import CROSS_ENV_PYTHON, PROJECT, WORKSPACE
+from src.paths import CROSS_ENV_PYTHON, PROJECT, UNMARKER_REPO, WORKSPACE
 
 CF = Path(PROJECT)
 SC = Path(WORKSPACE)
@@ -72,7 +72,7 @@ def attack_specification(attack):
         return dict(kind='ctrlregen', attack=attack, python=CRPY, steps=50,
                     strength=int(attack[-2:]) / 10, seed=1, source_hashes={str(path): digest(path)})
     if attack == 'unmarker':
-        paths = [CF / 'scripts/attack/unmarker_batch.py', CF / 'external/ai-watermark/attack_configs/Vine.yaml']
+        paths = [CF / 'scripts/attack/unmarker_batch.py', Path(UNMARKER_REPO) / 'attack_configs/Vine.yaml']
         return dict(kind='unmarker', attack=attack, python=UMPY, seed=1234,
                     n=30, batch=1, config='attack_configs/Vine.yaml',
                     source_hashes={str(p): digest(p) for p in paths})

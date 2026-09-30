@@ -59,6 +59,8 @@ caches. Downloaded for you:
 | VINE | a fragment |
 | VideoSeal | a fragment |
 | WatermarkAttacker | the `regen`, `rinse2x`, `vaeB` and `vaeC` attacks |
+| CtrlRegen | the `ctrlregen_s03`, `ctrlregen_s05` and `ctrlregen_s07` attacks (`--only ctrlregen`) |
+| UnMarker | the `unmarker` attack (`--only unmarker`) |
 | Stable Diffusion 2.1 | the `regen` and `rinse2x` attacks (`--only sd`) |
 
 The Stable Diffusion repository is gated. Accept the terms on its model page and
@@ -74,8 +76,24 @@ Two you have to place yourself, because there is no public download to point at.
 | MaskWM | a baseline, nothing in the method | `D_128bits.pth` |
 
 CtrlRegen and UnMarker conflict with this environment's dependencies, so they
-run out of process. Install each in its own environment and point at its
-interpreter.
+run out of process, through the drivers in `scripts/attack/`. Fetch each one's
+source tree, install it in its own environment following its own instructions,
+and name that environment's interpreter:
+
+```bash
+python tools/fetch_models.py --only ctrlregen unmarker
+export TAILOR_CTRLREGEN_PYTHON=/path/to/ctrlregen-env/bin/python
+export TAILOR_UNMARKER_PYTHON=/path/to/unmarker-env/bin/python
+```
+
+Either driver also runs on its own, on a directory of images:
+
+```bash
+$TAILOR_CTRLREGEN_PYTHON scripts/attack/ctrlregen_batch.py \
+    --in_dir IMAGES --out_dir ATTACKED --step 0.7 --steps 50 --seed 1
+$TAILOR_UNMARKER_PYTHON scripts/attack/unmarker_batch.py \
+    --in_dir IMAGES --out_dir ATTACKED --config attack_configs/Vine.yaml
+```
 
 To put anything somewhere else, set the matching variable. `src/paths.py` has
 them all in one place.
@@ -87,6 +105,7 @@ them all in one place.
 | `TAILOR_POOL` | `$TAILOR_WORKSPACE/pool` |
 | `TAILOR_VINE_REPO`, `TAILOR_VIDEOSEAL_REPO`, `TAILOR_WMATTACKER_REPO` | under `$TAILOR_MODELS` |
 | `TAILOR_SYNCSEAL_JIT`, `TAILOR_MASKWM_CKPT` | under `$TAILOR_MODELS` |
+| `TAILOR_CTRLREGEN_REPO`, `TAILOR_CTRLREGEN_CKPT`, `TAILOR_UNMARKER_REPO` | under `$TAILOR_MODELS` |
 | `TAILOR_SD21` | `stabilityai/stable-diffusion-2-1` |
 | `TAILOR_CTRLREGEN_PYTHON`, `TAILOR_UNMARKER_PYTHON` | unset |
 
@@ -164,6 +183,7 @@ python pipeline/make_canonical_surrogate.py                        # -> inputs/s
 ## Repository layout
 
 ```
+scripts/       the drivers for the two attacks that need their own environment
 solver/        the SMT model, the request protocol, the live-calibration loop
 measurement/   the verification rule, the FPR accounting, the measurement harness
 src/           the fragments, the geometric stages, the attacks, soft decoding
@@ -181,10 +201,9 @@ the 7,321 requests the paper evaluates.
 ## Not included
 
 - The image pool. Rebuild it with `pipeline/build_wm_dataset.py`.
-- The batch drivers for CtrlRegen and UnMarker, and the `wbench` package the
-  editing attacks and the baseline wrappers import. Solving a request against
-  `ctrlregen_*` or `unmarker` works, because their measurements are in the
-  database; re-measuring those attacks yourself does not.
+- The `wbench` package, which `pipeline/strength_sweep.py` and the editing
+  attacks in `solver/eval_matrix.py` import. Those two entry points do not run;
+  everything else does.
 
 ## License
 
