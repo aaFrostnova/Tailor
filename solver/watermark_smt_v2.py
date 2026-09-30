@@ -1154,11 +1154,27 @@ def report(tag,opt,use,resync,nested,a_lvl,psnr,time,attacks,min_ba):
 if __name__=="__main__":
     ap=argparse.ArgumentParser()
     ap.add_argument("--min_psnr",type=float,default=32.0); ap.add_argument("--max_ms",type=float,default=5000)
-    ap.add_argument("--attacks",nargs="+"); ap.add_argument("--min_ba",type=float,default=0.90)
+    ap.add_argument("--attacks",nargs="+")
+    ap.add_argument("--fpr",type=float,default=None,
+                    help="the request's false-positive budget for one verification of one image; "
+                         "sets the required bit accuracy through beta_from_fpr. This is the request "
+                         "input: --min_ba below is the quantity it derives.")
+    ap.add_argument("--min_ba",type=float,default=None,
+                    help="required bit accuracy, if you want to state it directly instead of --fpr "
+                         "(default 0.90, the code's correction limit)")
     ap.add_argument("--no_resync",action="store_true"); ap.add_argument("--no_nested",action="store_true")
     ap.add_argument("--min_bits",type=int,default=0,help="required robust ID bits (capacity axis; 0=off). 37=deployed ID")
     ap.add_argument("--pareto",action="store_true")
     a=ap.parse_args()
+    # The request carries a false-positive budget; the bit accuracy is derived from it exactly as the
+    # deployment does (capacity_protocol.solver_scenario). --min_ba states that quantity directly.
+    if a.fpr is not None and a.min_ba is not None:
+        ap.error("give --fpr or --min_ba, not both")
+    _ba_src = "fpr" if a.fpr is not None else "min_ba"
+    if a.fpr is not None:
+        a.min_ba = beta_from_fpr(a.fpr)
+    elif a.min_ba is None:
+        a.min_ba = 0.90
     SIG=["jpeg50","jpeg25","blur","noise","bright","contrast"]; GEO=["crop90","crop75","rot9","rot30"]; REG=["vaeB","vaeC","regen","rinse"]
     if a.pareto:
         # Pareto front via quality-threshold sweep: for each min PSNR, the minimal combo that still defends.
@@ -1181,7 +1197,8 @@ if __name__=="__main__":
     if a.attacks:
         opt,*rest=build(a.min_psnr,a.max_ms,a.attacks,a.min_ba,not a.no_resync,not a.no_nested,a.min_bits)
         opt.minimize(rest[4]); opt.maximize(rest[5]); opt.minimize(rest[6])
-        print(f"\nQUERY custom: PSNR>={a.min_psnr} ms<={a.max_ms} ba>={a.min_ba} bits>={a.min_bits} {a.attacks}")
+        _budget = (f"FPR<={a.fpr:g} (ba>={a.min_ba:.2f})" if _ba_src == "fpr" else f"ba>={a.min_ba}")
+        print(f"\nQUERY custom: PSNR>={a.min_psnr} ms<={a.max_ms} {_budget} bits>={a.min_bits} {a.attacks}")
         res=report("custom",opt,rest[0],rest[1],rest[2],rest[3],rest[5],rest[6],a.attacks,a.min_ba)
         unm=[x for x in a.attacks if x in CAP_UNMEASURED]
         if res:

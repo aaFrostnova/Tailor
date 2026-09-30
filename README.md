@@ -45,22 +45,23 @@ their upstream projects; `requirements.txt` names them.
 ### Solve a request
 
 ```bash
-python solver/watermark_smt_v2.py --attacks jpeg25 --min_psnr 42 --max_ms 100
+python solver/watermark_smt_v2.py --attacks jpeg25 --fpr 1e-2 --min_psnr 42 --max_ms 100
 ```
 
 ```
-QUERY custom: PSNR>=42.0 ms<=100.0 ba>=0.9 bits>=0 ['jpeg25']
+QUERY custom: PSNR>=42.0 ms<=100.0 FPR<=0.01 (ba>=0.63) bits>=0 ['jpeg25']
   VINE(alpha=0.3)   PSNR~45.6dB . 57ms
 ```
 
 A compression-only request is answered by one fragment at low strength. Harden
-the request and the composition grows:
+the attack set and the composition grows:
 
 ```bash
-python solver/watermark_smt_v2.py --attacks jpeg25 crop75 regen --min_psnr 38 --max_ms 500
+python solver/watermark_smt_v2.py --attacks jpeg25 crop75 regen --fpr 1e-6 --min_psnr 38 --max_ms 500
 ```
 
 ```
+QUERY custom: PSNR>=38.0 ms<=500.0 FPR<=1e-06 (ba>=0.74) bits>=0 ['jpeg25', 'crop75', 'regen']
   VINE(alpha=0.7) + TrustMark   PSNR~38.3dB . 70ms
 ```
 
@@ -68,34 +69,49 @@ Ask for more than the library can deliver and the answer is a statement about
 the library, not a failed search:
 
 ```bash
-python solver/watermark_smt_v2.py --attacks jpeg25 crop75 crop50 rot9 regen rinse --min_psnr 46 --max_ms 200
+python solver/watermark_smt_v2.py --attacks jpeg25 crop75 crop50 rot9 regen rinse --fpr 1e-6 --min_psnr 46 --max_ms 200
 ```
 
 ```
   UNSAT - no combination satisfies these conditions
 ```
 
-### The request
+### The request is four inputs
 
-| Flag | Meaning |
+| Flag | The input |
 |---|---|
 | `--attacks` | the attacks the configuration must survive |
+| `--fpr` | the false-positive budget one verification of one image may spend |
 | `--min_psnr` | the fidelity floor in dB |
 | `--max_ms` | the latency ceiling in ms, embedding plus verification |
-| `--min_ba` | the bit accuracy a verification must reach, which the FPR budget sets |
 
 Available attacks: `jpeg25`, `blur`, `noise`, `bright`, `contrast`, `rs256`,
 `hflip`, `crop75`, `crop50`, `rot9`, `crop_jpeg`, `border20`, `vaeB`, `vaeC`,
 `regen`, `rinse2x`, `ctrlregen_s03`, `ctrlregen_s05`, `editing_ip2p_s20_v1`,
 `unmarker`.
 
+The budget is spent, not assumed. `--fpr` sets the bit accuracy a verification
+must reach, printed beside it: a budget of $10^{-2}$ asks for 0.63, $10^{-6}$
+for 0.74, $10^{-9}$ for 0.80. It is a real constraint, and tightening it alone
+can decide a request:
+
+```bash
+python solver/watermark_smt_v2.py --attacks jpeg25 regen --fpr 1e-1 --min_psnr 40 --max_ms 300
+#   TrustMark   PSNR~41.3dB . 12ms
+python solver/watermark_smt_v2.py --attacks jpeg25 regen --fpr 1e-2 --min_psnr 40 --max_ms 300
+#   UNSAT
+```
+
+A configuration that runs more verification paths must clear a stricter
+threshold, because the paths share this one budget, so a fragment is never free
+even when it adds coverage. `--min_ba` states the required bit accuracy directly
+instead of deriving it from a budget; give one or the other.
+
 ### The answer
 
 The solver returns the fragments, the strength of each, their embedding order,
 and the geometric stage if one is enabled, together with the PSNR and latency it
-predicts. A configuration with more verification paths must clear a stricter
-threshold, because they share the request's false-positive budget, so adding a
-fragment is not free even when it adds coverage.
+predicts.
 
 ### Validate on your own images
 
