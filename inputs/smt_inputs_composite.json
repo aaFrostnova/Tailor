@@ -1,0 +1,68 @@
+{
+ "n": 24,
+ "note": "per-fragment bit-acc INSIDE 3-frag composite (VS@.7->TM@.7->VINE@1.0); regen/rinse from hidden_big",
+ "fragments": {
+  "VINE": {
+   "bit_acc": {
+    "clean": 1.0,
+    "jpeg50": 1.0,
+    "jpeg25": 0.998,
+    "blur": 0.998,
+    "noise": 0.999,
+    "bright": 1.0,
+    "contrast": 1.0,
+    "vaeB": 0.986,
+    "vaeC": 0.982,
+    "crop90": 0.493,
+    "crop75": 0.515,
+    "rot9": 0.486,
+    "rot30": 0.523,
+    "regen": 0.853,
+    "rinse": 0.73
+   }
+  },
+  "TrustMark": {
+   "bit_acc": {
+    "clean": 0.987,
+    "jpeg50": 0.971,
+    "jpeg25": 0.934,
+    "blur": 0.988,
+    "noise": 0.965,
+    "bright": 0.965,
+    "contrast": 0.957,
+    "vaeB": 0.933,
+    "vaeC": 0.912,
+    "crop90": 0.995,
+    "crop75": 0.767,
+    "rot9": 0.54,
+    "rot30": 0.504,
+    "regen": 0.5,
+    "rinse": 0.5
+   }
+  },
+  "VideoSeal": {
+   "bit_acc": {
+    "clean": 0.892,
+    "jpeg50": 0.822,
+    "jpeg25": 0.763,
+    "blur": 0.876,
+    "noise": 0.739,
+    "bright": 0.869,
+    "contrast": 0.871,
+    "vaeB": 0.646,
+    "vaeC": 0.644,
+    "crop90": 0.818,
+    "crop75": 0.609,
+    "rot9": 0.835,
+    "rot30": 0.494,
+    "regen": 0.5,
+    "rinse": 0.5
+   }
+  }
+ },
+ "psnr_stack": {
+  "1frag": 37.88,
+  "2frag": 36.65,
+  "3frag": 36.25
+ }
+}

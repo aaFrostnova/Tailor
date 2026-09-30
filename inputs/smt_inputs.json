@@ -1,0 +1,95 @@
+{
+ "n": 24,
+ "fragments": {
+  "VINE": {
+   "bit_acc": {
+    "clean": 1.0,
+    "jpeg50": 0.993,
+    "jpeg25": 0.973,
+    "blur": 0.97,
+    "noise": 0.998,
+    "bright": 1.0,
+    "contrast": 1.0,
+    "vaeB": 0.879,
+    "vaeC": 0.898,
+    "crop90": 0.505,
+    "crop75": 0.5,
+    "rot9": 0.512,
+    "rot30": 0.462
+   },
+   "psnr": 37.1,
+   "embed_ms": 47.5,
+   "decode_ms": 9.9
+  },
+  "TrustMark": {
+   "bit_acc": {
+    "clean": 1.0,
+    "jpeg50": 1.0,
+    "jpeg25": 0.915,
+    "blur": 1.0,
+    "noise": 1.0,
+    "bright": 1.0,
+    "contrast": 1.0,
+    "vaeB": 0.577,
+    "vaeC": 0.575,
+    "crop90": 1.0,
+    "crop75": 0.894,
+    "rot9": 0.492,
+    "rot30": 0.492
+   },
+   "psnr": 41.18,
+   "embed_ms": 4.3,
+   "decode_ms": 8.1
+  },
+  "VideoSeal": {
+   "bit_acc": {
+    "clean": 0.993,
+    "jpeg50": 0.89,
+    "jpeg25": 0.747,
+    "blur": 0.888,
+    "noise": 0.658,
+    "bright": 0.988,
+    "contrast": 0.994,
+    "vaeB": 0.575,
+    "vaeC": 0.568,
+    "crop90": 0.978,
+    "crop75": 0.896,
+    "rot9": 0.973,
+    "rot30": 0.51
+   },
+   "psnr": 40.94,
+   "embed_ms": 12.6,
+   "decode_ms": 9.8
+  }
+ },
+ "alpha_sweep": {
+  "0.3": {
+   "psnr": 46.36,
+   "clean": 0.973,
+   "jpeg25": 0.779,
+   "crop75": 0.499,
+   "noise": 0.87
+  },
+  "0.5": {
+   "psnr": 42.74,
+   "clean": 0.997,
+   "jpeg25": 0.894,
+   "crop75": 0.5,
+   "noise": 0.96
+  },
+  "0.7": {
+   "psnr": 40.03,
+   "clean": 0.999,
+   "jpeg25": 0.94,
+   "crop75": 0.502,
+   "noise": 0.988
+  },
+  "1.0": {
+   "psnr": 37.1,
+   "clean": 1.0,
+   "jpeg25": 0.973,
+   "crop75": 0.5,
+   "noise": 0.998
+  }
+ }
+}

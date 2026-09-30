@@ -1,0 +1,23 @@
+# Solver and protocol
+z3-solver>=4.12
+numpy>=1.24
+scipy>=1.10
+
+# Measurement and fragments
+torch>=2.1
+torchvision>=0.16
+pillow>=10.0
+scikit-image>=0.22
+bchlib>=2.0
+
+# Watermark fragments (install from the upstream projects; see README)
+#   trustmark
+#   videoseal
+#   vine  (VINE-R checkpoints)
+# Attack models
+#   diffusers>=0.27      regeneration and editing attacks
+#   compressai           neural-compression attacks
+
+# Data generation (stages 1 and 2)
+#   compressai           neural-compression attacks
+#   datasets             image pool construction

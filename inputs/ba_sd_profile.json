@@ -1,0 +1,117 @@
+{
+ "blur": {
+  "sd": 0.0247,
+  "sd_max": 0.1118,
+  "cells": 88
+ },
+ "border20": {
+  "sd": 0.0986,
+  "sd_max": 0.1695,
+  "cells": 22
+ },
+ "bright": {
+  "sd": 0.0491,
+  "sd_max": 0.1101,
+  "cells": 88
+ },
+ "contrast": {
+  "sd": 0.0343,
+  "sd_max": 0.0983,
+  "cells": 88
+ },
+ "crop50": {
+  "sd": 0.1121,
+  "sd_max": 0.1439,
+  "cells": 17
+ },
+ "crop75": {
+  "sd": 0.0479,
+  "sd_max": 0.125,
+  "cells": 40
+ },
+ "crop_jpeg": {
+  "sd": 0.1331,
+  "sd_max": 0.141,
+  "cells": 21
+ },
+ "ctrlregen_s03": {
+  "sd": 0.0933,
+  "sd_max": 0.1075,
+  "cells": 5
+ },
+ "ctrlregen_s05": {
+  "sd": 0.078,
+  "sd_max": 0.1019,
+  "cells": 4
+ },
+ "hflip": {
+  "sd": 0.0669,
+  "sd_max": 0.1738,
+  "cells": 47
+ },
+ "jpeg25": {
+  "sd": 0.063,
+  "sd_max": 0.0867,
+  "cells": 88
+ },
+ "noise": {
+  "sd": 0.0634,
+  "sd_max": 0.1062,
+  "cells": 88
+ },
+ "regen": {
+  "sd": 0.0973,
+  "sd_max": 0.1102,
+  "cells": 48
+ },
+ "rinse2x": {
+  "sd": 0.0975,
+  "sd_max": 0.1064,
+  "cells": 24
+ },
+ "rot9": {
+  "sd": 0.0349,
+  "sd_max": 0.1122,
+  "cells": 40
+ },
+ "rs256": {
+  "sd": 0.0229,
+  "sd_max": 0.1101,
+  "cells": 41
+ },
+ "unmarker": {
+  "sd": 0.0839,
+  "sd_max": 0.1997,
+  "cells": 9
+ },
+ "vaeB": {
+  "sd": 0.0796,
+  "sd_max": 0.0888,
+  "cells": 46
+ },
+ "vaeC": {
+  "sd": 0.0791,
+  "sd_max": 0.0929,
+  "cells": 43
+ },
+ "unmarker@scale": {
+  "sd": 0.0343,
+  "sd_max": 0.2276,
+  "cells": 9
+ },
+ "ctrlregen_s03@scale": {
+  "sd": 0.067,
+  "sd_max": 0.0726,
+  "cells": 9
+ },
+ "ctrlregen_s05@scale": {
+  "sd": 0.064,
+  "sd_max": 0.0734,
+  "cells": 9
+ },
+ "ctrlregen_s07@scale": {
+  "sd": 0.0642,
+  "sd_max": 0.0794,
+  "cells": 9
+ }
+}

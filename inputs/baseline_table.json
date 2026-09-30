@@ -1,0 +1,1700 @@
+{
+ "schema": 1,
+ "created_at": "2026-08-26T17:47:30Z",
+ "note": "baseline = shared cross-request fact; per-request measurements belong in an overlay",
+ "cells": {
+  "bit_acc": {
+   "VINE@0.3/clean": {
+    "value": 0.9656,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.3/jpeg25": {
+    "value": 0.9248,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.3/jpeg50": {
+    "value": 0.9516,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.3/blur": {
+    "value": 0.9286,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.003
+   },
+   "VINE@0.3/noise": {
+    "value": 0.9288,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.002
+   },
+   "VINE@0.3/bright": {
+    "value": 0.9594,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.002
+   },
+   "VINE@0.3/contrast": {
+    "value": 0.964,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.3/crop90": {
+    "value": 0.5002,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0463
+   },
+   "VINE@0.3/crop75": {
+    "value": 0.5002,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0442
+   },
+   "VINE@0.3/crop50": {
+    "value": 0.4866,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0539
+   },
+   "VINE@0.3/rot9": {
+    "value": 0.4916,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0479
+   },
+   "VINE@0.3/rot30": {
+    "value": 0.495,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0483
+   },
+   "VINE@0.3/vaeB": {
+    "value": 0.8444,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0108
+   },
+   "VINE@0.3/vaeC": {
+    "value": 0.8378,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0111
+   },
+   "VINE@0.5/clean": {
+    "value": 0.993,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.5/jpeg25": {
+    "value": 0.9796,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.5/jpeg50": {
+    "value": 0.9898,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.5/blur": {
+    "value": 0.9838,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.003
+   },
+   "VINE@0.5/noise": {
+    "value": 0.9848,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.002
+   },
+   "VINE@0.5/bright": {
+    "value": 0.9914,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.002
+   },
+   "VINE@0.5/contrast": {
+    "value": 0.9922,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.5/crop90": {
+    "value": 0.5024,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0463
+   },
+   "VINE@0.5/crop75": {
+    "value": 0.4988,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0442
+   },
+   "VINE@0.5/crop50": {
+    "value": 0.486,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:16Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0539
+   },
+   "VINE@0.5/rot9": {
+    "value": 0.4924,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:16Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0479
+   },
+   "VINE@0.5/rot30": {
+    "value": 0.4952,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:16Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0483
+   },
+   "VINE@0.5/vaeB": {
+    "value": 0.942,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:16Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0108
+   },
+   "VINE@0.5/vaeC": {
+    "value": 0.9356,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:16Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0111
+   },
+   "VINE@0.7/clean": {
+    "value": 0.999,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.7/jpeg25": {
+    "value": 0.9944,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.7/jpeg50": {
+    "value": 0.999,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.7/blur": {
+    "value": 0.995,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.003
+   },
+   "VINE@0.7/noise": {
+    "value": 0.9968,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.002
+   },
+   "VINE@0.7/bright": {
+    "value": 0.9982,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.002
+   },
+   "VINE@0.7/contrast": {
+    "value": 0.9988,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@0.7/crop90": {
+    "value": 0.5046,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0463
+   },
+   "VINE@0.7/crop75": {
+    "value": 0.4986,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0442
+   },
+   "VINE@0.7/crop50": {
+    "value": 0.4872,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0539
+   },
+   "VINE@0.7/rot9": {
+    "value": 0.498,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0479
+   },
+   "VINE@0.7/rot30": {
+    "value": 0.498,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0483
+   },
+   "VINE@0.7/vaeB": {
+    "value": 0.978,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0108
+   },
+   "VINE@0.7/vaeC": {
+    "value": 0.9746,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0111
+   },
+   "VINE@1.0/clean": {
+    "value": 0.9998,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@1.0/jpeg25": {
+    "value": 0.9994,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@1.0/jpeg50": {
+    "value": 0.9998,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@1.0/blur": {
+    "value": 0.9992,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.003
+   },
+   "VINE@1.0/noise": {
+    "value": 0.9996,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.002
+   },
+   "VINE@1.0/bright": {
+    "value": 0.9998,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.002
+   },
+   "VINE@1.0/contrast": {
+    "value": 0.9998,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "VINE@1.0/crop90": {
+    "value": 0.4998,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0463
+   },
+   "VINE@1.0/crop75": {
+    "value": 0.4998,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0442
+   },
+   "VINE@1.0/crop50": {
+    "value": 0.4872,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0539
+   },
+   "VINE@1.0/rot9": {
+    "value": 0.4982,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0479
+   },
+   "VINE@1.0/rot30": {
+    "value": 0.4982,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0483
+   },
+   "VINE@1.0/vaeB": {
+    "value": 0.9944,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0108
+   },
+   "VINE@1.0/vaeC": {
+    "value": 0.9934,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0111
+   },
+   "TrustMark@1.0/clean": {
+    "value": 0.9996,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0028
+   },
+   "TrustMark@1.0/jpeg25": {
+    "value": 0.9928,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0115
+   },
+   "TrustMark@1.0/jpeg50": {
+    "value": 0.9966,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0094
+   },
+   "TrustMark@1.0/blur": {
+    "value": 0.9998,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0014
+   },
+   "TrustMark@1.0/noise": {
+    "value": 0.9986,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0053
+   },
+   "TrustMark@1.0/bright": {
+    "value": 0.9982,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0052
+   },
+   "TrustMark@1.0/contrast": {
+    "value": 0.9976,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0059
+   },
+   "TrustMark@1.0/crop90": {
+    "value": 1.0,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0
+   },
+   "TrustMark@1.0/crop75": {
+    "value": 1.0,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0
+   },
+   "TrustMark@1.0/crop50": {
+    "value": 0.6132,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0963
+   },
+   "TrustMark@1.0/rot9": {
+    "value": 0.57,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0672
+   },
+   "TrustMark@1.0/rot30": {
+    "value": 0.495,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0554
+   },
+   "TrustMark@1.0/vaeB": {
+    "value": 0.9912,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0167
+   },
+   "TrustMark@1.0/vaeC": {
+    "value": 0.9858,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0201
+   },
+   "VideoSeal@1.0/clean": {
+    "value": 0.9962,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0171
+   },
+   "VideoSeal@1.0/jpeg25": {
+    "value": 0.9222,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0522
+   },
+   "VideoSeal@1.0/jpeg50": {
+    "value": 0.983,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0276
+   },
+   "VideoSeal@1.0/blur": {
+    "value": 0.9956,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.02
+   },
+   "VideoSeal@1.0/noise": {
+    "value": 0.8994,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0729
+   },
+   "VideoSeal@1.0/bright": {
+    "value": 0.9956,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0197
+   },
+   "VideoSeal@1.0/contrast": {
+    "value": 0.996,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0183
+   },
+   "VideoSeal@1.0/crop90": {
+    "value": 0.9898,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0368
+   },
+   "VideoSeal@1.0/crop75": {
+    "value": 0.9804,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0454
+   },
+   "VideoSeal@1.0/crop50": {
+    "value": 0.8614,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.1125
+   },
+   "VideoSeal@1.0/rot9": {
+    "value": 0.991,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.023
+   },
+   "VideoSeal@1.0/rot30": {
+    "value": 0.4944,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.0471
+   },
+   "VideoSeal@1.0/vaeB": {
+    "value": 0.8002,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.118
+   },
+   "VideoSeal@1.0/vaeC": {
+    "value": 0.7504,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db",
+    "std": 0.113
+   },
+   "VINE@0.3/regen": {
+    "value": 0.724,
+    "n": 20,
+    "measured_at": "2026-08-26T18:12:31Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "VINE@0.5/regen": {
+    "value": 0.84,
+    "n": 20,
+    "measured_at": "2026-08-26T18:13:05Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "VINE@0.7/regen": {
+    "value": 0.9015,
+    "n": 20,
+    "measured_at": "2026-08-26T18:13:39Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "VINE@1.0/regen": {
+    "value": 0.9495,
+    "n": 20,
+    "measured_at": "2026-08-26T18:14:13Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "TrustMark@1.0/regen": {
+    "value": 0.6125,
+    "n": 20,
+    "measured_at": "2026-08-26T18:14:40Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "VideoSeal@1.0/regen": {
+    "value": 0.555,
+    "n": 20,
+    "measured_at": "2026-08-26T18:15:08Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "VINE@0.3/rinse": {
+    "value": 0.6765,
+    "n": 20,
+    "measured_at": "2026-08-26T18:16:09Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "VINE@0.5/rinse": {
+    "value": 0.79,
+    "n": 20,
+    "measured_at": "2026-08-26T18:17:10Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "VINE@0.7/rinse": {
+    "value": 0.839,
+    "n": 20,
+    "measured_at": "2026-08-26T18:18:11Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "VINE@1.0/rinse": {
+    "value": 0.8985,
+    "n": 20,
+    "measured_at": "2026-08-26T18:19:12Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "TrustMark@1.0/rinse": {
+    "value": 0.556,
+    "n": 20,
+    "measured_at": "2026-08-26T18:20:06Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "VideoSeal@1.0/rinse": {
+    "value": 0.518,
+    "n": 20,
+    "measured_at": "2026-08-26T18:21:00Z",
+    "method": "stage2a-local",
+    "git": "bd914db"
+   },
+   "VINE@0.3/unmarker": {
+    "value": 0.53,
+    "n": 25,
+    "measured_at": "2026-08-26T19:53:31Z",
+    "method": "fold-existing",
+    "git": "bd914db",
+    "source": "unified_bitacc raw_ba",
+    "std": 0.07,
+    "adversarial": true
+   },
+   "VINE@0.5/unmarker": {
+    "value": 0.53,
+    "n": 25,
+    "measured_at": "2026-08-26T19:53:31Z",
+    "method": "fold-existing",
+    "git": "bd914db",
+    "source": "unified_bitacc raw_ba",
+    "std": 0.07,
+    "adversarial": true
+   },
+   "VINE@0.7/unmarker": {
+    "value": 0.53,
+    "n": 25,
+    "measured_at": "2026-08-26T19:53:31Z",
+    "method": "fold-existing",
+    "git": "bd914db",
+    "source": "unified_bitacc raw_ba",
+    "std": 0.07,
+    "adversarial": true
+   },
+   "VINE@1.0/unmarker": {
+    "value": 0.53,
+    "n": 25,
+    "measured_at": "2026-08-26T19:53:31Z",
+    "method": "fold-existing",
+    "git": "bd914db",
+    "source": "unified_bitacc raw_ba",
+    "std": 0.07,
+    "adversarial": true
+   },
+   "TrustMark@1.0/unmarker": {
+    "value": 0.51,
+    "n": 200,
+    "measured_at": "2026-08-26T19:53:31Z",
+    "method": "fold-existing",
+    "git": "bd914db",
+    "source": "eval10k/t3 bare",
+    "std": 0.07,
+    "adversarial": true
+   },
+   "VideoSeal@1.0/unmarker": {
+    "value": 0.607,
+    "n": 200,
+    "measured_at": "2026-08-26T19:53:31Z",
+    "method": "fold-existing",
+    "git": "bd914db",
+    "source": "videoseal_unmarker_standalone",
+    "std": 0.06845858236919604,
+    "adversarial": true
+   },
+   "VINE@0.7/ctrlregen_s03": {
+    "value": 0.79,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe measured",
+    "git": "bd914db"
+   },
+   "VINE@0.7/ctrlregen_s05": {
+    "value": 0.6965,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe measured",
+    "git": "bd914db"
+   },
+   "VINE@0.7/ctrlregen_s07": {
+    "value": 0.623,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe measured",
+    "git": "bd914db"
+   },
+   "VINE@1.0/ctrlregen_s03": {
+    "value": 0.841,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe measured",
+    "git": "bd914db"
+   },
+   "VINE@1.0/ctrlregen_s05": {
+    "value": 0.731,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe measured",
+    "git": "bd914db"
+   },
+   "VINE@1.0/ctrlregen_s07": {
+    "value": 0.6205,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe measured",
+    "git": "bd914db"
+   },
+   "VINE@0.3/ctrlregen_s03": {
+    "value": 0.79,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe (a>=0.7 proxy; C4 forbids a<0.7)",
+    "git": "bd914db"
+   },
+   "VINE@0.3/ctrlregen_s05": {
+    "value": 0.6965,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe (a>=0.7 proxy; C4 forbids a<0.7)",
+    "git": "bd914db"
+   },
+   "VINE@0.3/ctrlregen_s07": {
+    "value": 0.623,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe (a>=0.7 proxy; C4 forbids a<0.7)",
+    "git": "bd914db"
+   },
+   "VINE@0.5/ctrlregen_s03": {
+    "value": 0.79,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe (a>=0.7 proxy; C4 forbids a<0.7)",
+    "git": "bd914db"
+   },
+   "VINE@0.5/ctrlregen_s05": {
+    "value": 0.6965,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe (a>=0.7 proxy; C4 forbids a<0.7)",
+    "git": "bd914db"
+   },
+   "VINE@0.5/ctrlregen_s07": {
+    "value": 0.623,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe (a>=0.7 proxy; C4 forbids a<0.7)",
+    "git": "bd914db"
+   },
+   "VINE@0.3/ctrlregen": {
+    "value": 0.623,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "alias=s07 (worst)",
+    "git": "bd914db"
+   },
+   "VINE@0.5/ctrlregen": {
+    "value": 0.623,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "alias=s07 (worst)",
+    "git": "bd914db"
+   },
+   "VINE@0.7/ctrlregen": {
+    "value": 0.623,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "alias=s07 (worst)",
+    "git": "bd914db"
+   },
+   "VINE@1.0/ctrlregen": {
+    "value": 0.6205,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "alias=s07 (worst)",
+    "git": "bd914db"
+   },
+   "TrustMark@1.0/ctrlregen_s03": {
+    "value": 0.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical: spatial mark dies to regen",
+    "git": "bd914db"
+   },
+   "TrustMark@1.0/ctrlregen_s05": {
+    "value": 0.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical: spatial mark dies to regen",
+    "git": "bd914db"
+   },
+   "TrustMark@1.0/ctrlregen_s07": {
+    "value": 0.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical: spatial mark dies to regen",
+    "git": "bd914db"
+   },
+   "TrustMark@1.0/ctrlregen": {
+    "value": 0.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical: spatial mark dies to regen",
+    "git": "bd914db"
+   },
+   "VideoSeal@1.0/ctrlregen_s03": {
+    "value": 0.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical: spatial mark dies to regen",
+    "git": "bd914db"
+   },
+   "VideoSeal@1.0/ctrlregen_s05": {
+    "value": 0.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical: spatial mark dies to regen",
+    "git": "bd914db"
+   },
+   "VideoSeal@1.0/ctrlregen_s07": {
+    "value": 0.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical: spatial mark dies to regen",
+    "git": "bd914db"
+   },
+   "VideoSeal@1.0/ctrlregen": {
+    "value": 0.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical: spatial mark dies to regen",
+    "git": "bd914db"
+   }
+  },
+  "cap": {
+   "VINE/clean": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:52:40Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/jpeg25": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:52:50Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/jpeg50": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:53:00Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/blur": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:53:11Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/noise": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:53:22Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/bright": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:53:32Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/contrast": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:53:42Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/crop90": {
+    "value": 0.2,
+    "n": 50,
+    "measured_at": "2026-08-26T17:53:53Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/crop75": {
+    "value": 0.3,
+    "n": 50,
+    "measured_at": "2026-08-26T17:54:03Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/crop50": {
+    "value": 0.4,
+    "n": 50,
+    "measured_at": "2026-08-26T17:54:13Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/rot9": {
+    "value": 0.2,
+    "n": 50,
+    "measured_at": "2026-08-26T17:54:24Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/rot30": {
+    "value": 0.3,
+    "n": 50,
+    "measured_at": "2026-08-26T17:54:36Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/vaeB": {
+    "value": 95.5,
+    "n": 50,
+    "measured_at": "2026-08-26T17:54:49Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/vaeC": {
+    "value": 95.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:02Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/clean": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:03Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/jpeg25": {
+    "value": 95.9,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:05Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/jpeg50": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:07Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/blur": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:09Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/noise": {
+    "value": 95.9,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:12Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/bright": {
+    "value": 95.9,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:14Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/contrast": {
+    "value": 95.9,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:16Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/crop90": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:17Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/crop75": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:19Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/crop50": {
+    "value": 6.4,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:21Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/rot9": {
+    "value": 2.4,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:24Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/rot30": {
+    "value": 0.5,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:27Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/vaeB": {
+    "value": 94.6,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:29Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/vaeC": {
+    "value": 93.2,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:33Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/clean": {
+    "value": 96.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:34Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/jpeg25": {
+    "value": 73.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:35Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/jpeg50": {
+    "value": 93.0,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:37Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/blur": {
+    "value": 95.9,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:39Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/noise": {
+    "value": 66.3,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:41Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/bright": {
+    "value": 95.9,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:43Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/contrast": {
+    "value": 95.9,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:44Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/crop90": {
+    "value": 95.3,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:45Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/crop75": {
+    "value": 92.6,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:47Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/crop50": {
+    "value": 58.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:48Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/rot9": {
+    "value": 95.2,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:51Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/rot30": {
+    "value": 0.3,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:53Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/vaeB": {
+    "value": 42.3,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:55Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/vaeC": {
+    "value": 31.0,
+    "n": 50,
+    "measured_at": "2026-08-26T17:55:59Z",
+    "method": "stage3-softMI",
+    "git": "bd914db"
+   },
+   "VINE/regen": {
+    "value": 80.9,
+    "n": 20,
+    "measured_at": "2026-08-26T18:14:13Z",
+    "method": "stage2a-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/regen": {
+    "value": 7.2,
+    "n": 20,
+    "measured_at": "2026-08-26T18:14:40Z",
+    "method": "stage2a-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/regen": {
+    "value": 2.9,
+    "n": 20,
+    "measured_at": "2026-08-26T18:15:08Z",
+    "method": "stage2a-softMI",
+    "git": "bd914db"
+   },
+   "VINE/rinse": {
+    "value": 64.1,
+    "n": 20,
+    "measured_at": "2026-08-26T18:19:12Z",
+    "method": "stage2a-softMI",
+    "git": "bd914db"
+   },
+   "TrustMark/rinse": {
+    "value": 2.2,
+    "n": 20,
+    "measured_at": "2026-08-26T18:20:06Z",
+    "method": "stage2a-softMI",
+    "git": "bd914db"
+   },
+   "VideoSeal/rinse": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:21:00Z",
+    "method": "stage2a-softMI",
+    "git": "bd914db"
+   },
+   "VINE/unmarker": {
+    "value": 37.0,
+    "n": 25,
+    "measured_at": "2026-08-26T19:53:31Z",
+    "method": "fold-existing (nested crypto-verify LB)",
+    "git": "bd914db",
+    "source": "unified_bitacc detect_crypto 1.0 @2^-37"
+   },
+   "TrustMark/unmarker": {
+    "value": 0.0,
+    "n": 200,
+    "measured_at": "2026-08-26T19:53:31Z",
+    "method": "mechanical (dead)",
+    "git": "bd914db",
+    "source": "bare 0.51"
+   },
+   "VideoSeal/unmarker": {
+    "value": 0.0,
+    "n": 200,
+    "measured_at": "2026-08-26T19:53:31Z",
+    "method": "measured 0.607 < presence 0.63",
+    "git": "bd914db",
+    "source": "videoseal_unmarker_standalone"
+   },
+   "VINE/ctrlregen_s03": {
+    "value": 48.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe soft-MI",
+    "git": "bd914db"
+   },
+   "VINE/ctrlregen_s05": {
+    "value": 22.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe soft-MI",
+    "git": "bd914db"
+   },
+   "VINE/ctrlregen_s07": {
+    "value": 9.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "cr_vine_pipe soft-MI",
+    "git": "bd914db"
+   },
+   "VINE/ctrlregen": {
+    "value": 9.5,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "alias=s07",
+    "git": "bd914db"
+   },
+   "TrustMark/ctrlregen_s03": {
+    "value": 0.0,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical dead",
+    "git": "bd914db"
+   },
+   "TrustMark/ctrlregen_s05": {
+    "value": 0.0,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical dead",
+    "git": "bd914db"
+   },
+   "TrustMark/ctrlregen_s07": {
+    "value": 0.0,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical dead",
+    "git": "bd914db"
+   },
+   "TrustMark/ctrlregen": {
+    "value": 0.0,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical dead",
+    "git": "bd914db"
+   },
+   "VideoSeal/ctrlregen_s03": {
+    "value": 0.0,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical dead",
+    "git": "bd914db"
+   },
+   "VideoSeal/ctrlregen_s05": {
+    "value": 0.0,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical dead",
+    "git": "bd914db"
+   },
+   "VideoSeal/ctrlregen_s07": {
+    "value": 0.0,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical dead",
+    "git": "bd914db"
+   },
+   "VideoSeal/ctrlregen": {
+    "value": 0.0,
+    "n": 20,
+    "measured_at": "2026-08-26T20:25:14Z",
+    "method": "mechanical dead",
+    "git": "bd914db"
+   }
+  },
+  "psnr_solo": {
+   "VINE@0.3": {
+    "value": 45.56,
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:42Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "VINE@0.5": {
+    "value": 41.86,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "VINE@0.7": {
+    "value": 39.12,
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "VINE@1.0": {
+    "value": 36.18,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "TrustMark@1.0": {
+    "value": 41.32,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "VideoSeal@1.0": {
+    "value": 45.4,
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db"
+   }
+  },
+  "latency": {
+   "VINE@0.3": {
+    "value": {
+     "embed_ms": 765.2,
+     "decode_ms": 78.4
+    },
+    "n": 50,
+    "measured_at": "2026-08-26T17:48:43Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "VINE@0.5": {
+    "value": {
+     "embed_ms": 182.3,
+     "decode_ms": 20.5
+    },
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:15Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "VINE@0.7": {
+    "value": {
+     "embed_ms": 182.6,
+     "decode_ms": 20.6
+    },
+    "n": 50,
+    "measured_at": "2026-08-26T17:49:48Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "VINE@1.0": {
+    "value": {
+     "embed_ms": 175.1,
+     "decode_ms": 20.6
+    },
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:21Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "TrustMark@1.0": {
+    "value": {
+     "embed_ms": 21.1,
+     "decode_ms": 15.0
+    },
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:39Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "VideoSeal@1.0": {
+    "value": {
+     "embed_ms": 21.7,
+     "decode_ms": 13.7
+    },
+    "n": 50,
+    "measured_at": "2026-08-26T17:50:57Z",
+    "method": "stage1",
+    "git": "bd914db"
+   }
+  },
+  "penalties": {
+   "PEN2": {
+    "value": 0.78,
+    "n": 50,
+    "measured_at": "2026-08-26T17:51:55Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "PEN3": {
+    "value": 1.1,
+    "n": 50,
+    "measured_at": "2026-08-26T17:51:55Z",
+    "method": "stage1",
+    "git": "bd914db"
+   },
+   "NESTED_PEN": {
+    "value": 2.8,
+    "n": 50,
+    "measured_at": "2026-08-26T17:51:55Z",
+    "method": "stage1",
+    "git": "bd914db"
+   }
+  },
+  "frontend": {
+   "resync_ms": {
+    "value": 354.9,
+    "n": 10,
+    "measured_at": "2026-08-26T18:05:56Z",
+    "method": "stage4-deployed",
+    "git": "bd914db"
+   },
+   "nested_ms": {
+    "value": 1526.7,
+    "n": 10,
+    "measured_at": "2026-08-26T18:05:56Z",
+    "method": "stage4-deployed",
+    "git": "bd914db"
+   },
+   "nested_boost": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:08:30Z",
+    "method": "stage4-deployed (min over geometric attacks)",
+    "git": "bd914db"
+   },
+   "resync_boost": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:08:30Z",
+    "method": "stage4-deployed (min over geometric attacks)",
+    "git": "bd914db"
+   },
+   "cascade_recovery/crop90": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:06:30Z",
+    "method": "stage4-deployed-geo_cascade",
+    "git": "bd914db"
+   },
+   "deployed_detect/crop90": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:06:30Z",
+    "method": "stage4-deployed-full-decode",
+    "git": "bd914db"
+   },
+   "cascade_recovery/crop75": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:06:54Z",
+    "method": "stage4-deployed-geo_cascade",
+    "git": "bd914db"
+   },
+   "deployed_detect/crop75": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:06:54Z",
+    "method": "stage4-deployed-full-decode",
+    "git": "bd914db"
+   },
+   "cascade_recovery/crop50": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:07:25Z",
+    "method": "stage4-deployed-geo_cascade",
+    "git": "bd914db"
+   },
+   "deployed_detect/crop50": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:07:25Z",
+    "method": "stage4-deployed-full-decode",
+    "git": "bd914db"
+   },
+   "cascade_recovery/rot9": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:07:50Z",
+    "method": "stage4-deployed-geo_cascade",
+    "git": "bd914db"
+   },
+   "deployed_detect/rot9": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:07:50Z",
+    "method": "stage4-deployed-full-decode",
+    "git": "bd914db"
+   },
+   "cascade_recovery/rot30": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:08:30Z",
+    "method": "stage4-deployed-geo_cascade",
+    "git": "bd914db"
+   },
+   "deployed_detect/rot30": {
+    "value": 1.0,
+    "n": 20,
+    "measured_at": "2026-08-26T18:08:30Z",
+    "method": "stage4-deployed-full-decode",
+    "git": "bd914db"
+   }
+  }
+ },
+ "stages_run": {
+  "1": {
+   "at": "2026-08-26T17:51:55Z",
+   "n": 50
+  },
+  "3": {
+   "at": "2026-08-26T17:55:59Z",
+   "n": 50
+  },
+  "4": {
+   "at": "2026-08-26T18:08:30Z",
+   "n": 20
+  },
+  "2a": {
+   "at": "2026-08-26T18:21:00Z",
+   "n": 20
+  },
+  "unmarker_fold": {
+   "at": "2026-08-26T19:53:31Z",
+   "note": "folded existing measurements; no request-time live (540s/img)"
+  },
+  "ctrlregen_vine": {
+   "at": "2026-08-26T20:25:14Z",
+   "n": 20,
+   "note": "VINE-only fresh; TM/VS mechanical 0.50"
+  },
+  "variance": {
+   "at": "2026-08-26T21:04:48Z"
+  }
+ },
+ "updated_at": "2026-08-26T18:21:00Z",
+ "coverage": null
+}
