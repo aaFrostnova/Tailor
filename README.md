@@ -1,81 +1,11 @@
 # Made to Measure: Designing Image Watermarks to Specification
 
-TAILOR takes a deployment request and returns a watermark configuration that
-meets it, or says the library cannot. A request is four inputs: the attacks the
-watermark must survive, the false-positive budget a single verification may
-spend, the PSNR floor, and the latency ceiling. TAILOR searches fragment
-subsets, their embedding order, a continuous strength per fragment, and an
-optional geometric recovery stage, subject to all four at once, and returns the
-lowest-distortion configuration that satisfies them.
+You say what a watermark has to do. TAILOR gives you a configuration that does
+it, or tells you no configuration can.
 
 ![Overview of TAILOR](assets/overview.png)
 
-Offline characterization builds a performance database of attack coverage,
-distortion and runtime. Joint configuration selection solves an SMT model of the
-request over that database. Live calibration validates the chosen configuration
-on your own images under the requested attacks before it is deployed.
-
-## Install
-
-The solver needs three packages:
-
-```bash
-git clone <this repository>
-cd Tailor
-pip install z3-solver numpy scipy
-```
-
-That is enough to solve requests: the measured database the solver reads is in
-`inputs/`.
-
-Embedding and live calibration additionally need PyTorch and the models:
-
-```bash
-pip install -r requirements.txt
-export PYTHONPATH=$PWD:$PWD/solver:$PWD/measurement:$PWD/pipeline
-python tools/fetch_models.py
-```
-
-### Models
-
-No model is redistributed here. `tools/fetch_models.py` puts each one where
-`src/paths.py` looks for it, under `external/` by default, and `--check` reports
-what is present without fetching anything.
-
-| Component | What it is | How it arrives |
-| --- | --- | --- |
-| TrustMark | fragment | `pip install trustmark`, which fetches its own weights |
-| VINE | fragment | cloned from its project; the encoder and decoder weights are two Hugging Face repositories the classes fetch themselves |
-| VideoSeal | fragment | cloned from its project, which resolves its own model card |
-| WatermarkAttacker | the regeneration attack | cloned from its project; carries no weights |
-| Stable Diffusion 2.1, 1.5, 1.4 | the regeneration and VAE attacks | `--only sd`, resolved by identifier and cached on first use. The 2.1 repositories are gated: accept the terms on the model page and `hf auth login`, or point `TAILOR_SD21` at a local directory |
-| SyncSeal | the learned geometric stage | placed by hand. `--only syncseal` prints where `syncmodel.jit.pt` goes; only the stage that rectifies before decoding uses it |
-| MaskWM | a baseline | placed by hand, likewise. Nothing in the method needs it |
-
-`TAILOR_MODELS` moves the whole tree; a per-component variable moves one of
-them, and `src/paths.py` lists all of them in one place. The same file decides
-where a measurement campaign writes (`TAILOR_WORKSPACE`) and where the image
-pool is (`TAILOR_POOL`), so nothing outside `inputs/` is a fixed path.
-
-CtrlRegen and UnMarker need dependencies that conflict with this environment, so
-they are invoked out of process: install each in its own environment and name
-its interpreter through `TAILOR_CTRLREGEN_PYTHON` and `TAILOR_UNMARKER_PYTHON`.
-
-## Usage
-
-### Solve a request
-
-```bash
-python solver/watermark_smt_v2.py --attacks jpeg25 --fpr 1e-2 --min_psnr 42 --max_ms 100
-```
-
-```
-QUERY custom: PSNR>=42.0 ms<=100.0 FPR<=0.01 (ba>=0.63) bits>=0 ['jpeg25']
-  VINE(alpha=0.3)   PSNR~45.6dB . 57ms
-```
-
-A compression-only request is answered by one fragment at low strength. Harden
-the attack set and the composition grows:
+A request is four numbers and a list of attacks:
 
 ```bash
 python solver/watermark_smt_v2.py --attacks jpeg25 crop75 regen --fpr 1e-6 --min_psnr 38 --max_ms 500
@@ -86,35 +16,102 @@ QUERY custom: PSNR>=38.0 ms<=500.0 FPR<=1e-06 (ba>=0.74) bits>=0 ['jpeg25', 'cro
   VINE(alpha=0.7) + TrustMark   PSNR~38.3dB . 70ms
 ```
 
-Ask for more than the library can deliver and the answer is a statement about
-the library, not a failed search:
+The answer names the fragments, the strength of each, the order to embed them
+in, the geometric stage if one is needed, and the PSNR and latency to expect.
+
+## Install
+
+To solve requests you need three packages. The measured database the solver
+reads is already in `inputs/`, so there is nothing to download and no GPU.
 
 ```bash
-python solver/watermark_smt_v2.py --attacks jpeg25 crop75 crop50 rot9 regen rinse --fpr 1e-6 --min_psnr 46 --max_ms 200
+pip install z3-solver numpy scipy
+python solver/watermark_smt_v2.py --attacks jpeg25 --fpr 1e-2 --min_psnr 42 --max_ms 100
 ```
 
-```
-  UNSAT - no combination satisfies these conditions
+To embed, attack and verify real images you also need PyTorch and the models:
+
+```bash
+pip install -r requirements.txt
+export PYTHONPATH=$PWD:$PWD/solver:$PWD/measurement:$PWD/pipeline
+python tools/fetch_models.py
 ```
 
-### The request is four inputs
+## Models
 
-| Flag | The input |
-|---|---|
-| `--attacks` | the attacks the configuration must survive |
+No model is shipped in this repository. Fetch them:
+
+```bash
+python tools/fetch_models.py            # the fragments and the regeneration attack, 9.3 GB
+python tools/fetch_models.py --check    # list what is installed, download nothing
+python tools/fetch_models.py --only sd  # Stable Diffusion, for the regeneration attack
+```
+
+VINE is 9 GB of that: its encoder is built on SD-Turbo, which comes with it. Pass
+`--only trustmark videoseal regen` to skip it, at 240 MB.
+
+Source trees land in `external/`; weights go to the usual Hugging Face and PyTorch
+caches. Downloaded for you:
+
+| Component | Used for |
+| --- | --- |
+| TrustMark | a fragment |
+| VINE | a fragment |
+| VideoSeal | a fragment |
+| WatermarkAttacker | the `regen`, `rinse2x`, `vaeB` and `vaeC` attacks |
+| Stable Diffusion 2.1 | the `regen` and `rinse2x` attacks (`--only sd`) |
+
+The Stable Diffusion repository is gated. Accept the terms on its model page and
+run `hf auth login`, or set `TAILOR_SD21` to a local copy. The `vaeB` and `vaeC`
+attacks need no model here: compressai fetches its own.
+
+Two you have to place yourself, because there is no public download to point at.
+`--check` prints the exact path each one goes to:
+
+| Component | Used for | File |
+| --- | --- | --- |
+| SyncSeal | the geometric stage that rectifies before decoding | `syncmodel.jit.pt` |
+| MaskWM | a baseline, nothing in the method | `D_128bits.pth` |
+
+CtrlRegen and UnMarker conflict with this environment's dependencies, so they
+run out of process. Install each in its own environment and point at its
+interpreter.
+
+To put anything somewhere else, set the matching variable. `src/paths.py` has
+them all in one place.
+
+| Variable | Default |
+| --- | --- |
+| `TAILOR_MODELS` | `external/` |
+| `TAILOR_WORKSPACE` | `workspace/`, where campaigns write |
+| `TAILOR_POOL` | `$TAILOR_WORKSPACE/pool` |
+| `TAILOR_VINE_REPO`, `TAILOR_VIDEOSEAL_REPO`, `TAILOR_WMATTACKER_REPO` | under `$TAILOR_MODELS` |
+| `TAILOR_SYNCSEAL_JIT`, `TAILOR_MASKWM_CKPT` | under `$TAILOR_MODELS` |
+| `TAILOR_SD21` | `stabilityai/stable-diffusion-2-1` |
+| `TAILOR_CTRLREGEN_PYTHON`, `TAILOR_UNMARKER_PYTHON` | unset |
+
+## Solving requests
+
+| Flag | Meaning |
+| --- | --- |
+| `--attacks` | the attacks the watermark must survive |
 | `--fpr` | the false-positive budget one verification of one image may spend |
-| `--min_psnr` | the fidelity floor in dB |
-| `--max_ms` | the latency ceiling in ms, embedding plus verification |
+| `--min_psnr` | the fidelity floor, in dB |
+| `--max_ms` | the latency ceiling, in ms, embedding plus verification |
 
-Available attacks: `jpeg25`, `blur`, `noise`, `bright`, `contrast`, `rs256`,
-`hflip`, `crop75`, `crop50`, `rot9`, `crop_jpeg`, `border20`, `vaeB`, `vaeC`,
-`regen`, `rinse2x`, `ctrlregen_s03`, `ctrlregen_s05`, `editing_ip2p_s20_v1`,
-`unmarker`.
+The 20 attack names:
 
-The budget is spent, not assumed. `--fpr` sets the bit accuracy a verification
-must reach, printed beside it: a budget of $10^{-2}$ asks for 0.63, $10^{-6}$
-for 0.74, $10^{-9}$ for 0.80. It is a real constraint, and tightening it alone
-can decide a request:
+```
+jpeg25  blur  noise  bright  contrast  rs256  hflip  border20
+crop75  crop50  rot9  crop_jpeg
+vaeB  vaeC  regen  rinse2x
+ctrlregen_s03  ctrlregen_s05  ctrlregen_s07  unmarker
+```
+
+`--fpr` sets the bit accuracy a verification has to reach, which the query line
+prints next to it: `1e-2` asks for 0.63, `1e-6` for 0.74, `1e-9` for 0.80.
+Tightening it alone can change the answer, because a configuration that runs
+more verification paths has to clear a stricter threshold.
 
 ```bash
 python solver/watermark_smt_v2.py --attacks jpeg25 regen --fpr 1e-1 --min_psnr 40 --max_ms 300
@@ -123,38 +120,37 @@ python solver/watermark_smt_v2.py --attacks jpeg25 regen --fpr 1e-2 --min_psnr 4
 #   UNSAT
 ```
 
-A configuration that runs more verification paths must clear a stricter
-threshold, because the paths share this one budget, so a fragment is never free
-even when it adds coverage. `--min_ba` states the required bit accuracy directly
-instead of deriving it from a budget; give one or the other.
+`UNSAT` means no configuration in the library satisfies all four inputs at once:
 
-### The answer
+```bash
+python solver/watermark_smt_v2.py --attacks jpeg25 crop75 crop50 rot9 regen rinse --fpr 1e-6 --min_psnr 46 --max_ms 200
+#   UNSAT - no combination satisfies these conditions
+```
 
-The solver returns the fragments, the strength of each, their embedding order,
-and the geometric stage if one is enabled, together with the PSNR and latency it
-predicts.
+Use `--min_ba` instead of `--fpr` to state the bit accuracy directly. Give one
+or the other, not both.
 
-### Validate on your own images
+## Validating on your own images
 
-The database describes the images it was measured on, which may not behave like
-yours. Live calibration runs the full embed, attack and decode path on your
+The database was measured on one image population, which may not behave like
+yours. Live calibration runs the whole embed, attack and decode path on your
 images and deploys only what passes there:
 
 ```bash
 python solver/live_topk_full.py enumerate <class> <n_requests>   # candidates per request
 python solver/live_topk_full.py measure   <class> [N=100]        # GPU: embed, attack, decode
 python solver/live_topk_full.py walk      <class> [N=100]        # verdicts, no GPU
-python solver/live_topk_full.py patch     <class> <shard> <n>    # refine and re-solve on failure
+python solver/live_topk_full.py patch     <class> <shard> <n>    # re-solve what failed
 ```
 
 `measure` writes one record per configuration and attack under
-`$TAILOR_WORKSPACE/live_topk/cells/` and reuses anything already there, so a
-campaign is resumable and a configuration measured once is free for every later
-request that selects it.
+`$TAILOR_WORKSPACE/live_topk/cells/` and reuses whatever is already there, so
+the campaign is resumable and a configuration measured once is free for every
+later request that picks it.
 
-### Rebuild the database for your own fragments
+## Measuring your own fragments
 
-To characterize a different fragment library, run the offline stages and refit:
+To characterize a different fragment library, rebuild the database:
 
 ```bash
 python pipeline/build_wm_dataset.py --out $TAILOR_WORKSPACE/pool   # the image pool
@@ -165,29 +161,32 @@ python pipeline/fit_surrogate_curves.py                            # knots to cu
 python pipeline/make_canonical_surrogate.py                        # -> inputs/surrogate_canonical.json
 ```
 
-## What is in the box
+## Repository layout
 
 ```
-solver/        the SMT model, the request protocol, and the live-calibration loop
-measurement/   the verification rule, the FPR accounting, and the measurement harness
-src/           the watermark fragments, the geometric stages, the attacks, soft decoding
-pipeline/      the campaigns that build the performance database
+solver/        the SMT model, the request protocol, the live-calibration loop
+measurement/   the verification rule, the FPR accounting, the measurement harness
+src/           the fragments, the geometric stages, the attacks, soft decoding
+pipeline/      the campaigns that build the database
 inputs/        the measured database the solver reads
-tools/         fetching the models, which are not redistributed
+tools/         fetching the models
 ```
 
 `inputs/surrogate_canonical.json` is the database: 60 recovery curves over
 fragment strength, 120 interference curves per ordered pair and attack, 827
-curves for the geometric stages, the per-image scores behind every mean, and the
-distortion, latency and capacity entries. `inputs/requests.json` holds the 7,321
-requests the paper evaluates, each one the four inputs above.
+curves for the geometric stages, 181 per-image score sets behind those means,
+and the distortion, latency and capacity entries. `inputs/requests.json` holds
+the 7,321 requests the paper evaluates.
 
-The image pool and the models are not redistributed here. The pool is rebuilt by
-`pipeline/build_wm_dataset.py` and the models arrive through
-`tools/fetch_models.py`, as **Models** above describes.
+## Not included
+
+- The image pool. Rebuild it with `pipeline/build_wm_dataset.py`.
+- The batch drivers for CtrlRegen and UnMarker, and the `wbench` package the
+  editing attacks and the baseline wrappers import. Solving a request against
+  `ctrlregen_*` or `unmarker` works, because their measurements are in the
+  database; re-measuring those attacks yourself does not.
 
 ## License
 
-MIT, see `LICENSE`. The watermark fragments and the attack models are used
-through their upstream packages and are not redistributed here; their own
-licenses govern those packages.
+MIT, see `LICENSE`. The fragments and the attack models stay with their own
+projects under their own licenses and are not redistributed here.

@@ -62,14 +62,11 @@ MASKWM_CKPT = _env("TAILOR_MASKWM_CKPT", os.path.join(MASKWM_REPO, "checkpoints"
 WMATTACKER_REPO = _env("TAILOR_WMATTACKER_REPO", os.path.join(MODELS, "WatermarkAttacker"))
 
 
-# stabilityai gates its repositories: accept the terms on the model page and
-# `hf auth login`, or point these at a local directory. The 1.x mirrors are public.
-SD = {
-    "sd21":      _env("TAILOR_SD21",      "stabilityai/stable-diffusion-2-1"),
-    "sd21_base": _env("TAILOR_SD21_BASE", "stabilityai/stable-diffusion-2-1-base"),
-    "sd15":      _env("TAILOR_SD15",      "stable-diffusion-v1-5/stable-diffusion-v1-5"),
-    "sd14":      _env("TAILOR_SD14",      "CompVis/stable-diffusion-v1-4"),
-}
+# The diffusion model the regeneration attack rebuilds an image with. stabilityai gates
+# its repositories: accept the terms on the model page and `hf auth login`, or set this to
+# a local directory. The neural-compression attacks need no model here; compressai fetches
+# its own. `SD` stays a mapping so a campaign can add a variant without touching callers.
+SD = {"sd21": _env("TAILOR_SD21", "stabilityai/stable-diffusion-2-1")}
 
 # CtrlRegen and UnMarker each need dependencies that conflict with this environment, so
 # they are run out of process. There is no default: the interpreter of the environment

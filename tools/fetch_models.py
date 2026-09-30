@@ -117,27 +117,21 @@ def do_manual(component, _check):
 
 
 def do_sd(check):
-    """The diffusion attack models: the largest download here, and only the attacks use them."""
+    """Stable Diffusion, which the regeneration attack rebuilds an image with. Several GB,
+    and only that attack needs it."""
+    repo = M.SD["sd21"]
     if check:
-        return "skipped", " ".join(sorted(set(M.SD.values())))
+        return "skipped", repo
     try:
-        from diffusers import AutoencoderKL, StableDiffusionPipeline
+        from diffusers import StableDiffusionPipeline
     except ImportError:
         return "missing", "pip install diffusers"
-    # the regeneration attack loads a whole pipeline; the VAE attacks load only a `vae` subfolder
-    jobs = [(M.SD["sd21"], lambda r: StableDiffusionPipeline.from_pretrained(r))]
-    jobs += [(r, lambda r: AutoencoderKL.from_pretrained(r, subfolder="vae"))
-             for r in sorted({M.SD[k] for k in ("sd21_base", "sd15", "sd14")})]
-    bad = []
-    for repo, load in jobs:
-        try:
-            load(repo)
-        except Exception as e:                                      # noqa: BLE001
-            bad.append(f"{repo} ({type(e).__name__})")
-    if bad:
-        return "failed", ("; ".join(bad) + ".  stabilityai gates its repositories: accept "
-                          "the terms on the model page and `hf auth login`, or point "
-                          "TAILOR_SD21 at a local directory.")
+    try:
+        StableDiffusionPipeline.from_pretrained(repo)
+    except Exception as e:                                          # noqa: BLE001
+        return "failed", (f"{repo} ({type(e).__name__}).  stabilityai gates its "
+                          "repositories: accept the terms on the model page and "
+                          "`hf auth login`, or point TAILOR_SD21 at a local directory.")
     return "cached", "weights in the local cache"
 
 
