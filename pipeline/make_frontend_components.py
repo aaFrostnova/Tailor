@@ -16,9 +16,9 @@ Sharded by (component, attack): pass SHARD NSHARD to take a slice of the 18 cell
 import sys, os, json, time, subprocess
 import numpy as np
 from PIL import Image
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense"):
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC
+for p in (CF, f"{CF}/solver"):
     sys.path.insert(0, p)
 from src.shortened_bch import ShortenedBCH
 from src.image_pool import sample as _pool_sample, composition_of

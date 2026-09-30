@@ -19,10 +19,10 @@ an older table.
 import sys, os, io, json, time, glob, argparse, subprocess
 import numpy as np
 from PIL import Image, ImageFilter
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC
 OUT = f"{SC}/baseline_table.json"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense", SC):
+for p in (CF, f"{CF}/solver", SC):
     sys.path.insert(0, p)
 
 ALV = [0.3, 0.5, 0.7, 1.0]

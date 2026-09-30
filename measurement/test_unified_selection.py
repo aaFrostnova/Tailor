@@ -3,7 +3,9 @@ import copy
 import sys
 import unittest
 from pathlib import Path
-U = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src.paths import RUN_ROOT
+U = Path(RUN_ROOT)
 sys.path[:0] = [str(U / 'code'), str(U / 'fixed/code')]
 import numpy as np
 import z3

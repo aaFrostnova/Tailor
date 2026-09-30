@@ -8,11 +8,13 @@ import numpy as np, torch
 from PIL import Image
 from torchvision.transforms.functional import to_tensor
 
-DEFAULT_JIT = "/data/tailor/workspace/syncseal_ckpt/syncmodel.jit.pt"
+from src.paths import SYNCSEAL_JIT as DEFAULT_JIT, require
 
 
 def load_sync(jit_path: str = DEFAULT_JIT, dev: str = "cuda"):
     """Load the scripted SyncSeal model (embed/detect/unwarp)."""
+    require(jit_path, "SyncSeal", "python tools/fetch_models.py --only syncseal prints where to "
+            "put syncmodel.jit.pt", "TAILOR_SYNCSEAL_JIT")
     return torch.jit.load(jit_path).to(dev).eval()
 
 

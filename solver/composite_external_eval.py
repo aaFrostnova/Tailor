@@ -14,8 +14,9 @@ import numpy as np, torch
 from PIL import Image
 from scipy.stats import binom
 
-REPO = "/data/tailor/project"
-sys.path.insert(0, REPO); sys.path.insert(0, os.path.join(REPO, "scripts"))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import MASKWM_CKPT, POOL, PROJECT as REPO
+sys.path.insert(0, os.path.join(REPO, "solver"))
 from src.shortened_bch import ShortenedBCH
 from src.vine_crypto_wrapper import VineCryptoWrapper, apply_crypto
 from src.trustmark_fragment import TrustMarkFragment
@@ -42,7 +43,7 @@ def build(fragments, dev, sb, tm_variant="B"):
         "vine":      lambda: VineCryptoWrapper(master_key=KEY, method_name="vine", n_bits=sb.n, device=dev),
         "trustmark": lambda: TrustMarkFragment(master_key=KEY, method_name="trustmark", n_bits=sb.n, model_type=tm_variant, device=dev),
         "videoseal": lambda: VideoSealFragment(master_key=KEY, method_name="videoseal", n_bits=sb.n, device=dev),
-        "maskwm":    lambda: _maskwm()(ckpt_path=os.path.join(REPO, "external/MaskWM/checkpoints/D_128bits.pth"),
+        "maskwm":    lambda: _maskwm()(ckpt_path=MASKWM_CKPT,
                                            master_key=KEY, method_name="maskwm", n_bits=sb.n, device=dev),
     }
     return {n: b[n]() for n in fragments}
@@ -100,8 +101,9 @@ def main():
     ap.add_argument("--fragments", nargs="+", default=["vine", "dft", "qim"])
     ap.add_argument("--n_images", type=int, default=50)
     ap.add_argument("--start_idx", type=int, default=4000)
-    ap.add_argument("--image_dir", default="/data/tailor/assets/KCMP/EXP_data/train2017")
-    ap.add_argument("--image_glob", default="*.jpg")
+    ap.add_argument("--image_dir", default=os.path.join(POOL, "A", "img"),
+                    help="covers to embed; the default is split A of the measurement pool")
+    ap.add_argument("--image_glob", default="*.png")
     ap.add_argument("--embed_dir", required=True, help="where embedded PNGs + meta.json live")
     ap.add_argument("--attacked_dir", help="(decode) dir of attacked PNGs; default=embed_dir")
     ap.add_argument("--attack_name", default="external")

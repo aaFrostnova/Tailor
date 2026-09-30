@@ -15,6 +15,8 @@ import io, os, tempfile
 import numpy as np
 from PIL import Image
 
+from src.paths import SD as _SD, CROSS_ENV_PYTHON as _CROSS_PY
+
 # ---------------------------------------------------------------- geometry (pure PIL, no deps)
 # CONVENTION. Two conventions were in use and had to be reconciled; the one adopted here is the
 # AREA-fraction crop and the default-fill rotation. Both are stated explicitly because the alternative
@@ -158,7 +160,7 @@ def attack_pil(name, img, dev="cuda", _vae_cache={}):
 # The mild regeneration and its repeats. These were built independently in the harness and in each
 # regeneration campaign; the noise step in particular decides how destructive the attack is, so it is
 # declared once here.
-SD21_PATH = "/data/tailor/assets/model/stable-diffusion-2-1"
+SD21_PATH = _SD["sd21"]
 REGEN_PARAMS = dict(noise_step=60, batch_size=1)
 RINSE_PASSES = {"regen": 1, "rinse2x": 2, "rinse4x": 4}
 _REGEN = {}
@@ -195,10 +197,10 @@ def regen_pil(img, passes=1, dev="cuda", workdir=None):
 # CtrlRegen and UnMarker need their own conda environments, so they cannot be called in-process.
 # What CAN be centralised is how they are invoked, which is what drifted between run scripts.
 CROSS_ENV = {
-    "ctrlregen": {"env": "/data/tailor/assets/.conda/envs/ctrlregen/bin/python",
+    "ctrlregen": {"env": _CROSS_PY["ctrlregen"],
                   "script": "scripts/attack/ctrlregen_batch.py",
                   "default_step": 0.7, "sweep_steps": [0.1, 0.3, 0.5, 0.7, 0.9]},
-    "unmarker":  {"env": "/data/tailor/assets/.conda/envs/unmarker/bin/python",
+    "unmarker":  {"env": _CROSS_PY["unmarker"],
                   "script": "scripts/attack/unmarker_batch.py",
                   "config": "attack_configs/Vine.yaml"},
 }

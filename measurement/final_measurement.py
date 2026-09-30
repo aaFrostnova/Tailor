@@ -20,32 +20,34 @@ from rigor_protocol import ROOT, SOURCE, PY, canonical_hash, digest, read
 from final_holdout import (check_frozen, check_plan, check_signed, check_splits, describe,
                            require, write_once)
 
-CF = Path('/data/tailor/project')
-SC = Path('/data/tailor/workspace/wm_dataset10k')
-BASE = SC / 'topk_capacity_output_20260910'
-UNIFIED_ROOT = Path('/data/tailor/home/outputs/rigor_editing_only_20260911/unified_ba_20260914')
-sys.path.insert(0, str(UNIFIED_ROOT / 'code'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src.paths import CROSS_ENV_PYTHON, PROJECT, WORKSPACE
+
+CF = Path(PROJECT)
+SC = Path(WORKSPACE)
+BASE = SC / 'topk_capacity_output'
+HERE = Path(__file__).resolve().parent          # the unified detector and its measurement
+SOLVER = CF / 'solver'                          # capacity_protocol, and the two eval drivers
+sys.path.insert(0, str(HERE))
 import unified_detector as UD
 from unified_measurement import cell_of_detailed
 ACCEPTANCE_PROTOCOL = 'unified_raw_ba_v1'
 NORMAL = {'jpeg25', 'blur', 'noise', 'bright', 'contrast', 'crop75', 'crop50', 'rot9',
           'rs256', 'hflip', 'crop_jpeg', 'border20', 'vaeB', 'vaeC', 'regen', 'rinse2x'}
-CRPY = '/data/tailor/assets/.conda/envs/ctrlregen/bin/python'
-UMPY = '/data/tailor/assets/.conda/envs/unmarker/bin/python'
+CRPY = CROSS_ENV_PYTHON['ctrlregen']
+UMPY = CROSS_ENV_PYTHON['unmarker']
 
 
 def source_fingerprints():
-    paths = [Path(__file__), Path(__file__).with_name('final_holdout.py'),
-             Path(__file__).with_name('rigor_protocol.py'),
-             UNIFIED_ROOT / 'code/unified_detector.py', UNIFIED_ROOT / 'code/unified_measurement.py',
-             UNIFIED_ROOT / 'fixed/code/capacity_protocol.py',
-             CF / 'scripts/defense/eval_matrix.py', CF / 'scripts/defense/composite_external_eval.py']
+    paths = [Path(__file__), HERE / 'final_holdout.py', HERE / 'rigor_protocol.py',
+             HERE / 'unified_detector.py', HERE / 'unified_measurement.py',
+             SOLVER / 'capacity_protocol.py',
+             SOLVER / 'eval_matrix.py', SOLVER / 'composite_external_eval.py']
     paths += sorted((CF / 'src').glob('*.py'))
-    if Path(__file__).resolve().parent != UNIFIED_ROOT / 'code':
-        paths += sorted(Path(__file__).parent.glob('*.py'))
-        manifest = Path(__file__).resolve().parents[1] / 'protocol_sources.json'
-        if manifest.exists():
-            paths.append(manifest)
+    paths += sorted(HERE.glob('*.py'))
+    manifest = CF / 'protocol_sources.json'
+    if manifest.exists():
+        paths.append(manifest)
     return {str(p.resolve()): digest(p) for p in paths}
 
 
@@ -690,7 +692,7 @@ def validate_result(task, result, verify_evidence=True):
         row = result['deployment'][repr(fpr)]
         require(row['fpr'] == fpr and len(row['detected']) == n and all(isinstance(v, bool) for v in row['detected']), 'invalid deployment verdict')
         vector(row['decode_ms']); vector(row['fused_ba'], high=1)
-    sys.path.insert(0, str(UNIFIED_ROOT / 'fixed/code'))
+    sys.path.insert(0, str(SOLVER))
     import capacity_protocol as CP
     require(CP.valid_cell(result['cell'], task['cfg']['order'], n, cfg=task['cfg'], alphas=task['fprs']),
             'invalid unified raw-BA measurement cell')

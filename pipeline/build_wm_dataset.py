@@ -12,7 +12,8 @@ so a smoke subset is a strict prefix of the full build.
 import os, sys, csv, json, argparse, io
 from PIL import Image
 
-SC = "/data/tailor/workspace"
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import POOL, WORKSPACE as SC
 LOCAL_ULTRAEDIT = f"{SC}/ultraedit_10k/source"
 MAXSIDE = 2048  # cap high-res (E) long side to bound disk
 
@@ -122,7 +123,7 @@ def build(out, ncap, seed):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=f"{SC}/wm_dataset10k/pool")
+    ap.add_argument("--out", default=POOL)
     ap.add_argument("--n", type=int, default=0, help="per-source cap (0 = full targets)")
     ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()

@@ -10,9 +10,9 @@ bind.  Usage: python make_delta_curves.py N CELL NCELLS   (one (pair, attack) ce
 import sys, os, json, time, subprocess
 import numpy as np
 from PIL import Image
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense", f"{CF}/external/WatermarkAttacker"):
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC, WMATTACKER_REPO as WMA
+for p in (CF, f"{CF}/solver", WMA):
     sys.path.insert(0, p)
 from src.vine_crypto_wrapper import VineCryptoWrapper
 from src.trustmark_fragment import TrustMarkFragment

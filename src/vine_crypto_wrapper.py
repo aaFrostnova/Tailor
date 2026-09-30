@@ -19,11 +19,16 @@ import numpy as np
 import torch
 from PIL import Image
 
-VINE_REPO = "/data/tailor/assets/watermark/vine/repo"
-sys.path.insert(0, VINE_REPO)
-sys.path.insert(0, os.path.join(VINE_REPO, "vine", "src"))
-os.environ.setdefault("HF_HOME", "/data/tailor/assets/.cache/huggingface")
-os.environ.setdefault("HF_HUB_CACHE", os.environ["HF_HOME"] + "/hub")
+from src.paths import VINE_HF, VINE_REPO, require
+
+
+def _on_path():
+    """Put VINE's own source tree on the path. Only the two loaders below need it, so the
+    crypto helpers in this module stay importable without VINE installed."""
+    require(VINE_REPO, "VINE", "python tools/fetch_models.py --only vine", "TAILOR_VINE_REPO")
+    for p in (VINE_REPO, os.path.join(VINE_REPO, "vine", "src")):
+        if p not in sys.path:
+            sys.path.insert(0, p)
 
 from src.sign_envelope import _hkdf_uint64_stream
 from src.payload import BCHCodec, image_id_to_payload
@@ -84,15 +89,17 @@ class VineCryptoWrapper:
 
     def _load_encoder(self):
         if self._enc is None:
+            _on_path()
             from vine_turbo import VINE_Turbo
-            self._enc = VINE_Turbo.from_pretrained(f"Shilin-LU/VINE-{self.variant}-Enc")
+            self._enc = VINE_Turbo.from_pretrained(VINE_HF.format(variant=self.variant, part="Enc"))
             self._enc.to(self.device).eval()
         return self._enc
 
     def _load_decoder(self):
         if self._dec is None:
+            _on_path()
             from stega_encoder_decoder import CustomConvNeXt
-            self._dec = CustomConvNeXt.from_pretrained(f"Shilin-LU/VINE-{self.variant}-Dec")
+            self._dec = CustomConvNeXt.from_pretrained(VINE_HF.format(variant=self.variant, part="Dec"))
             self._dec.to(self.device).eval()
         return self._dec
 

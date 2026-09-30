@@ -18,13 +18,15 @@ from PIL import Image
 from src.payload import BCHCodec, image_id_to_payload
 from src.vine_crypto_wrapper import apply_crypto, derive_method_keyed_constants, undo_crypto
 
-_VSEAL_REPO = os.path.join(os.path.dirname(os.path.dirname(__file__)), "external", "videoseal")
+from src.paths import VIDEOSEAL_REPO as _VSEAL_REPO, require
 
 
 class VideoSealFragment:
     def __init__(self, master_key: bytes = b"v5_key_encoder_master", method_name: str = "videoseal",
                  n_bits: int = 100, card: str = "videoseal", device: str = "cuda",
                  detection_threshold: float = 0.75):
+        require(_VSEAL_REPO, "VideoSeal", "python tools/fetch_models.py --only videoseal",
+                "TAILOR_VIDEOSEAL_REPO")
         if _VSEAL_REPO not in sys.path:
             sys.path.insert(0, _VSEAL_REPO)
         import videoseal

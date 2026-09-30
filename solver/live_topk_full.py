@@ -30,9 +30,9 @@ Outputs under $SC/live_topk/<class>_<tag>/; cells under $SC/live_topk/cells/ (sh
 """
 import sys, os, json, glob, time, hashlib, random, collections
 import numpy as np
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense", f"{CF}/external/WatermarkAttacker", SC): sys.path.insert(0, p)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC, WMATTACKER_REPO as WMA
+for p in (CF, f"{CF}/solver", WMA, SC): sys.path.insert(0, p)
 MODE = sys.argv[1]; CLS = int(sys.argv[2]); ARGS = sys.argv[3:]; sys.argv = [sys.argv[0]]
 import watermark_smt_v2 as W
 import watermark_smt_topk as T
@@ -332,7 +332,8 @@ elif MODE in ("measure", "measure_rank", "walk", "verdict", "patch", "xenv_count
         import solver_eval_continuous as SEC
         from live_calibration import table_value
         sg0 = SEC.sg; MEAS = set(sg0.attacks)
-        pw = json.load(open('/data/tailor/workspace/wm_dataset10k/topk_capacity_output_20260910/inputs/prior_width.json')) if os.path.exists('/data/tailor/workspace/wm_dataset10k/topk_capacity_output_20260910/inputs/prior_width.json') else {}
+        _pw_path = f"{SC}/prior_width.json"     # pipeline/measure_prior_width.py writes it
+        pw = json.load(open(_pw_path)) if os.path.exists(_pw_path) else {}
         PRIOR_SD = float(pw.get("prior_sd_p90") or pw.get("prior_sd_median") or 0.02)
         state = {r["i"]: r for r in json.load(open(f"{OUT}/walk.json"))["rows"]}
 

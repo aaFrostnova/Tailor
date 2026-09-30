@@ -288,7 +288,7 @@ def summarize(frozen_path, plan_path, cache_root, output_path=None):
     fixed_code = ROOT / 'fixed/code'
     sys.path.insert(0, str(fixed_code))
     import capacity_protocol as CP
-    sys.path.insert(0, '/data/tailor/home/outputs/rigor_editing_only_20260911/unified_ba_20260914/code')
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
     import unified_detector as UD
     task_results = {}
     for task in plan['tasks']:

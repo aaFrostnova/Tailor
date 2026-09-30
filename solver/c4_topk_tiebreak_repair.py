@@ -56,9 +56,10 @@ if __name__ == '__main__':
     import runpy
     import sys
     from pathlib import Path
-    cf = Path('/data/tailor/project')
-    sc = Path('/data/tailor/workspace/wm_dataset10k')
-    sys.path[:0] = [str(cf / 'scripts/defense'), str(cf), str(sc)]
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from src.paths import PROJECT, WORKSPACE
+    cf, sc = Path(PROJECT), Path(WORKSPACE)
+    sys.path[:0] = [str(cf / 'solver'), str(cf), str(sc)]
     install()
     sys.argv[0] = str(sc / 'live_topk.py')
     runpy.run_path(sys.argv[0], run_name='__main__')

@@ -12,9 +12,9 @@ listed under "zero_filled_delta" -- the solver needs a value for every (g,f,a) i
 "no measured interference" is the honest default, but it must be visible rather than silent.
 """
 import json, os, subprocess, sys
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-sys.path.insert(0, f"{CF}/scripts/defense")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC
+sys.path.insert(0, f"{CF}/solver")
 from surrogate_model import Surrogate
 
 # Order matters: later overlays override earlier ones key-by-key. The geometry overlay is LAST

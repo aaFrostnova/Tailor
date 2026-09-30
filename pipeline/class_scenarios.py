@@ -10,9 +10,9 @@ C4 carries ONE sampled CtrlRegen+ strength (0.3/0.5/0.7 at 0.4/0.4/0.2) and UnMa
 Usage: python class_scenarios.py <class 0-4> <shard> <n_shards> [N=2000]
 """
 import sys, os, json, random, time
-SC = "/data/tailor/workspace/wm_dataset10k"
-CF = "/data/tailor/project"
-for p in (f"{CF}/scripts/defense", SC): sys.path.insert(0, p)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC
+for p in (f"{CF}/solver", SC): sys.path.insert(0, p)
 CLS = int(sys.argv[1]); SHARD = int(sys.argv[2]); NSHARD = int(sys.argv[3]); N = int(sys.argv[4]) if len(sys.argv) > 4 else 2000
 sys.argv = [sys.argv[0]]                         # solver_eval_continuous reads argv at import
 import watermark_smt_v2 as W

@@ -40,7 +40,7 @@ from src.vine_crypto_wrapper import (
     undo_crypto,
 )
 
-_MASKWM_REPO = os.path.join(os.path.dirname(os.path.dirname(__file__)), "external", "MaskWM")
+from src.paths import MASKWM_REPO as _MASKWM_REPO
 
 
 class MaskWMWrapper:

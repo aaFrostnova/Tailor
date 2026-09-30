@@ -16,9 +16,9 @@ Verdicts per request are derived afterwards by certify_full_verdicts.py.
 import sys, os, json, glob, time, hashlib
 import numpy as np
 from PIL import Image
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense", f"{CF}/external/WatermarkAttacker", SC): sys.path.insert(0, p)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC, WMATTACKER_REPO as WMA
+for p in (CF, f"{CF}/solver", WMA, SC): sys.path.insert(0, p)
 MODE = sys.argv[1]; CLS = int(sys.argv[2]); ARGS = sys.argv[3:]; sys.argv = [sys.argv[0]]
 import watermark_smt_v2 as W
 from eval_matrix import OursComposite

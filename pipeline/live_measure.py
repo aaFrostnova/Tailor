@@ -15,9 +15,9 @@ HONEST BOUNDARY: attacks are split by what can run in-process.
 import sys, os, io, json, time
 import numpy as np
 from PIL import Image, ImageFilter
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense"):
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC
+for p in (CF, f"{CF}/solver"):
     sys.path.insert(0, p)
 
 BATCH_ONLY = {"regen", "rinse", "ctrlregen", "ctrlregen_s03", "ctrlregen_s05", "ctrlregen_s07", "unmarker"}

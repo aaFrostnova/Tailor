@@ -10,9 +10,9 @@ Usage: python measure_clean_minimum.py [N=100]   -> clean_minimum_strength.json
 import sys, os, json, time
 import numpy as np
 from PIL import Image
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense"):
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC
+for p in (CF, f"{CF}/solver"):
     sys.path.insert(0, p)
 from src.vine_crypto_wrapper import VineCryptoWrapper
 from src.trustmark_fragment import TrustMarkFragment

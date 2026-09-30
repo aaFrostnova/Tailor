@@ -15,11 +15,14 @@ import subprocess
 import sys
 import time
 
-ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from src.paths import PROJECT, PYTHON, RUN_ROOT, WORKSPACE
+
+ROOT = Path(RUN_ROOT)
 CODE, INPUTS = ROOT / 'code', ROOT / 'inputs'
-SC = ROOT.parent
-CF = Path('/data/tailor/project')
-PY = '/data/tailor/home/.conda/envs/fingerprint/bin/python'
+SC = Path(WORKSPACE)
+CF = Path(PROJECT)
+PY = PYTHON
 CLASSES = ('C1', 'C2', 'C3', 'C4', 'C5')
 ARMS = ('04', '06')
 from capacity_protocol import PROTOCOL, REQUEST_FIELDS, solver_scenario, valid_cell, needs_patch
@@ -55,13 +58,15 @@ def environment(arm):
                       ALLOW_XENV='1', SEED='0', SAMPLER_V='3',
                       FEAS_MATRIX=str(INPUTS / 'request_feasibility_matrix.json'),
                       OMP_NUM_THREADS='1', MKL_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1',
-                      PYTHONDONTWRITEBYTECODE='1', HF_HOME=str(SC.parent / 'hf_cache'),
-                      HUGGINGFACE_HUB_CACHE=str(SC.parent / 'hf_cache/hub'))
+                      PYTHONDONTWRITEBYTECODE='1',
+                      HF_HOME=os.environ.get('HF_HOME', str(SC / 'hf_cache')),
+                      HUGGINGFACE_HUB_CACHE=os.environ.get(
+                          'HUGGINGFACE_HUB_CACHE', str(SC / 'hf_cache/hub')))
 
 
 def boot(arm):
     environment(arm)
-    sys.path[:0] = [str(CODE), str(CF / 'scripts/defense'), str(CF), str(SC)]
+    sys.path[:0] = [str(CODE), str(CF / 'solver'), str(CF), str(SC)]
     import importlib.util
     # Preload frozen solver modules; legacy drivers later prepend repository paths.
     for name in ('surrogate_model', 'watermark_smt_v2', 'live_calibration', 'watermark_smt_topk', 'class_defs'):

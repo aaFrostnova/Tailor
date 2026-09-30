@@ -22,9 +22,9 @@ Modes (one cell family each; the sbatch array fans them out):
 import sys, os, json, glob, time
 import numpy as np
 from PIL import Image
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense", f"{CF}/external/WatermarkAttacker", SC): sys.path.insert(0, p)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC, WMATTACKER_REPO as WMA
+for p in (CF, f"{CF}/solver", WMA, SC): sys.path.insert(0, p)
 MODE = sys.argv[1]; ARGS = sys.argv[2:]; sys.argv = [sys.argv[0]]
 OUT = f"{SC}/perimage"; os.makedirs(OUT, exist_ok=True)
 KEY = b"v5_key_encoder_master"; NB = 100

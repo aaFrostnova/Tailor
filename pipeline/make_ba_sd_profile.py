@@ -6,8 +6,10 @@ sd, not the standard error of the mean; the certification stored `live_se` at a 
 variance_profile.json covered 14 classical columns at one operating point; this covers every column the
 classes name, including the diffusion and adversarial ones, pooled over the certified configurations.
 """
-import json, glob, math, collections, statistics as st
-SC = "/data/tailor/workspace/wm_dataset10k"
+import json, glob, math, collections, os, sys, statistics as st
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import WORKSPACE as SC
 acc = collections.defaultdict(list)
 for K in ["C1", "C2", "C3", "C4", "C5"]:
     R = json.load(open(f"{SC}/certify_classes_{K}.json"))

@@ -3,11 +3,15 @@ import datetime
 import hashlib
 import json
 from pathlib import Path
+import sys
 
-ROOT = Path(__file__).resolve().parent.parent
-SC = Path('/data/tailor/workspace/wm_dataset10k')
-SOURCE = SC / 'attack_extension_nfpa_edit_20260911'
-PY = '/data/tailor/home/.conda/envs/fingerprint/bin/python'
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from src.paths import PYTHON, RUN_ROOT, WORKSPACE
+
+ROOT = Path(RUN_ROOT)
+SC = Path(WORKSPACE)
+SOURCE = SC / 'attack_extension'
+PY = PYTHON
 COMPOSITION = {'A': 25, 'B': 25, 'C': 25, 'D': 15, 'E': 10}
 OFFSETS = {'calibration': 0, 'selection': 300, 'combination': 800, 'smoke': 850, 'final': 950}
 

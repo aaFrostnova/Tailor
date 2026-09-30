@@ -5,9 +5,9 @@ import sys, os, glob, io, json
 import numpy as np
 from PIL import Image, ImageFilter
 from scipy.stats import binom
-REPO = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-sys.path.insert(0, f"{REPO}/scripts")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as REPO, WORKSPACE as SC
+sys.path.insert(0, f"{REPO}/solver")
 from wbench.methods import VineMethod, TrustMarkMethod
 
 dev = "cuda"; N = int(sys.argv[1]) if len(sys.argv) > 1 else 15

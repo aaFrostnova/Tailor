@@ -104,7 +104,9 @@ class UnifiedDetectorTests(unittest.TestCase):
         # GPU models. The shared getter observes the real PIL pixels it would
         # receive, including resize, crop offsets and channel conversion.
         from PIL import Image as PILImage
-        cf = Path('/data/tailor/project')
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from src.paths import PROJECT
+        cf = Path(PROJECT)
         spec = importlib.util.spec_from_file_location('_test_native_soft_fusion', cf / 'src/soft_fusion.py')
         soft = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(soft)

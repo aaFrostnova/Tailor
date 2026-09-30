@@ -16,9 +16,9 @@ Usage: python extend_knots_campaign.py <frag> <strength>
 import sys, os, json, time
 import numpy as np
 from PIL import Image
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense", f"{CF}/external/WatermarkAttacker", SC): sys.path.insert(0, p)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC, WMATTACKER_REPO as WMA
+for p in (CF, f"{CF}/solver", WMA, SC): sys.path.insert(0, p)
 F = sys.argv[1]; s = float(sys.argv[2]); sys.argv = [sys.argv[0]]
 import watermark_smt_v2 as W
 from eval_matrix import OursComposite

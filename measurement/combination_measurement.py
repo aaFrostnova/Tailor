@@ -15,9 +15,15 @@ from combination_evaluation import (ROOT, EXT, OBS_SCHEMA, check_observation, ch
 from unified_measurement import cell_of_detailed
 import unified_detector as UD
 
-PY = '/data/tailor/home/.conda/envs/fingerprint/bin/python'
-OLD_PHASES = Path('/data/tailor/workspace/wm_dataset10k/rigor_validation_20260911/combination/25b0ec7c3713bebd075df1e760e09030f91e82b3416c55625d9869d662c21a9a/phases')
-OLD_READER = Path('/data/tailor/workspace/wm_dataset10k/topk_capacity_output_20260910/code/certify_full_frozen.py')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src.paths import PYTHON
+
+PY = PYTHON
+# Embeddings are reused from an earlier campaign rather than recomputed, so this phase has
+# to be told which one: the directory holding its phases, and the reader whose digest the
+# reuse is checked against. A first campaign has neither, and recomputes.
+OLD_PHASES = Path(os.environ.get('TAILOR_REUSE_PHASES', ''))
+OLD_READER = Path(os.environ.get('TAILOR_REUSE_READER', ''))
 ALPHAS = (.1, .01, 1e-4, 1e-6, 1e-9, 2**-37)
 
 

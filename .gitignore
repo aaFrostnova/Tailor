@@ -1,3 +1,10 @@
+# Nothing fetched or measured belongs in the repository.
+
+# the model source trees and checkpoints, from tools/fetch_models.py
+external/
+# the image pool, the campaign outputs and the measured cell cache
+workspace/
+
 __pycache__/
 *.pyc
 *.egg-info/

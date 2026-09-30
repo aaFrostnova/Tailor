@@ -9,9 +9,9 @@ Uses each fragment's embed_with_target + raw_logits/raw_probs (crypto is a bijec
 import sys, os, io, json, itertools, glob
 import numpy as np
 from PIL import Image, ImageFilter
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense"):
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC
+for p in (CF, f"{CF}/solver"):
     sys.path.insert(0, p)
 from composite_external_eval import scale_resid
 from src.vine_crypto_wrapper import VineCryptoWrapper

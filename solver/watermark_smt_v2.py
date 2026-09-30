@@ -8,7 +8,7 @@ Regen/rinse/rot/crop bit-acc for VINE/TM come from frag_suite (n=20) + memory (r
 import json, sys, os, argparse, math
 from z3 import (Optimize, Bool, Int, Real, If, Or, And, Not, Implies, Sum, BoolVal, sat, is_true,
                 AtMost)
-CF=os.environ.get("TAILOR_PROJECT", "/data/tailor/project")
+CF=os.environ.get("TAILOR_PROJECT", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 _BUNDLED=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "inputs")
 
 def _frozen(name):

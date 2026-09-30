@@ -5,9 +5,11 @@ import importlib.util
 from pathlib import Path
 import sys
 
-SC = Path('/data/tailor/workspace/wm_dataset10k')
-BASE = SC / 'topk_capacity_output_20260910'
-CF = Path('/data/tailor/project')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src.paths import PROJECT, WORKSPACE
+SC = Path(WORKSPACE)
+BASE = SC / 'topk_capacity_output'
+CF = Path(PROJECT)
 
 
 def load():

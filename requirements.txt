@@ -9,15 +9,15 @@ torchvision>=0.16
 pillow>=10.0
 scikit-image>=0.22
 bchlib>=2.0
+trustmark>=0.9
 
-# Watermark fragments (install from the upstream projects; see README)
-#   trustmark
-#   videoseal
-#   vine  (VINE-R checkpoints)
 # Attack models
-#   diffusers>=0.27      regeneration and editing attacks
-#   compressai           neural-compression attacks
+diffusers>=0.27
+compressai
 
-# Data generation (stages 1 and 2)
-#   compressai           neural-compression attacks
-#   datasets             image pool construction
+# Image pool construction
+datasets
+
+# The rest are source trees rather than packages, so `python tools/fetch_models.py`
+# clones them and warms their weights: VINE and VideoSeal (fragments), WatermarkAttacker
+# (the regeneration attack). SyncSeal and MaskWM are placed by hand; the README says where.

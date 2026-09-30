@@ -16,11 +16,12 @@ import numpy as np, torch
 from PIL import Image
 from scipy.stats import binom
 
-REPO = "/data/tailor/project"
-sys.path.insert(0, REPO); sys.path.insert(0, os.path.join(REPO, "scripts"))
-sys.path.insert(0, os.path.join(REPO, "external", "WatermarkAttacker"))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as REPO, SD as _SD, WMATTACKER_REPO, WORKSPACE
+sys.path.insert(0, os.path.join(REPO, "solver"))
+sys.path.insert(0, WMATTACKER_REPO)
 
-SD21 = "/data/tailor/assets/model/stable-diffusion-2-1"
+SD21 = _SD["sd21"]
 KEY = b"v5_key_encoder_master"
 ATTACKS = ["clean", "jpeg", "blur", "noise", "bright", "contrast", "bm3d", "regen", "rinse2x", "rinse4x", "vae_b", "vae_c"]
 # Listed rather than derived so the reported column ORDER is stable, but checked against the shared
@@ -503,7 +504,7 @@ def main():
                    help="wrap EVERY method in the shared SyncSeal front-end (rectify-always, decode-once)")
     p.add_argument("--fpr_negatives", type=int, default=0,
                    help="also measure empirical false-accept rate on this many unwatermarked covers")
-    p.add_argument("--out_dir", default="/data/tailor/workspace/wm_dataset10k/eval_dev200")
+    p.add_argument("--out_dir", default=f"{WORKSPACE}/eval_dev200")
     args = p.parse_args()
     dev = "cuda"
     free, tot = torch.cuda.mem_get_info(0); print(f"[gpu] free {free/1e9:.1f}/{tot/1e9:.1f} GB", flush=True)

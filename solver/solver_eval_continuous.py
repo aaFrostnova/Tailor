@@ -14,9 +14,9 @@ Usage: python solver_eval_continuous.py <shard_idx> <n_shards> [N=2000]
 Writes one shard of per-scenario records; merge with merge_solver_eval.py.
 """
 import sys, os, json, math, random, time
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-sys.path.insert(0, f"{CF}/scripts/defense")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC
+sys.path.insert(0, f"{CF}/solver")
 import z3
 from surrogate_model import Surrogate
 import watermark_smt_v2 as W

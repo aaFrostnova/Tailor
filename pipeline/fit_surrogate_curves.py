@@ -19,11 +19,14 @@ Candidates, all monotone-aware and all cheap to evaluate:
 
 Usage: python fit_surrogate_curves.py [in.json] [out.json]
 """
-import sys, json, math
+import sys, json, math, os
 import numpy as np
 
-IN = sys.argv[1] if len(sys.argv) > 1 else "/data/tailor/workspace/wm_dataset10k/surrogate_canonical.json"
-OUT = sys.argv[2] if len(sys.argv) > 2 else "/data/tailor/workspace/wm_dataset10k/surrogate_fitted.json"
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import WORKSPACE as SC
+
+IN = sys.argv[1] if len(sys.argv) > 1 else f"{SC}/surrogate_canonical.json"
+OUT = sys.argv[2] if len(sys.argv) > 2 else f"{SC}/surrogate_fitted.json"
 
 def _iso(ys, inc):
     """Pool-adjacent-violators: nearest monotone sequence in least squares."""

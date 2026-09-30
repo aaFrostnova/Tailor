@@ -28,17 +28,38 @@ pip install z3-solver numpy scipy
 That is enough to solve requests: the measured database the solver reads is in
 `inputs/`.
 
-Embedding and live calibration additionally need PyTorch, the three watermark
-fragments and the attack models:
+Embedding and live calibration additionally need PyTorch and the models:
 
 ```bash
 pip install -r requirements.txt
 export PYTHONPATH=$PWD:$PWD/solver:$PWD/measurement:$PWD/pipeline
+python tools/fetch_models.py
 ```
 
-The fragments (VINE, TrustMark, VideoSeal) and the attack models (diffusion
-regeneration, neural compression, image editing, watermark removal) come from
-their upstream projects; `requirements.txt` names them.
+### Models
+
+No model is redistributed here. `tools/fetch_models.py` puts each one where
+`src/paths.py` looks for it, under `external/` by default, and `--check` reports
+what is present without fetching anything.
+
+| Component | What it is | How it arrives |
+| --- | --- | --- |
+| TrustMark | fragment | `pip install trustmark`, which fetches its own weights |
+| VINE | fragment | cloned from its project; the encoder and decoder weights are two Hugging Face repositories the classes fetch themselves |
+| VideoSeal | fragment | cloned from its project, which resolves its own model card |
+| WatermarkAttacker | the regeneration attack | cloned from its project; carries no weights |
+| Stable Diffusion 2.1, 1.5, 1.4 | the regeneration and VAE attacks | `--only sd`, resolved by identifier and cached on first use. The 2.1 repositories are gated: accept the terms on the model page and `hf auth login`, or point `TAILOR_SD21` at a local directory |
+| SyncSeal | the learned geometric stage | placed by hand. `--only syncseal` prints where `syncmodel.jit.pt` goes; only the stage that rectifies before decoding uses it |
+| MaskWM | a baseline | placed by hand, likewise. Nothing in the method needs it |
+
+`TAILOR_MODELS` moves the whole tree; a per-component variable moves one of
+them, and `src/paths.py` lists all of them in one place. The same file decides
+where a measurement campaign writes (`TAILOR_WORKSPACE`) and where the image
+pool is (`TAILOR_POOL`), so nothing outside `inputs/` is a fixed path.
+
+CtrlRegen and UnMarker need dependencies that conflict with this environment, so
+they are invoked out of process: install each in its own environment and name
+its interpreter through `TAILOR_CTRLREGEN_PYTHON` and `TAILOR_UNMARKER_PYTHON`.
 
 ## Usage
 
@@ -152,6 +173,7 @@ measurement/   the verification rule, the FPR accounting, and the measurement ha
 src/           the watermark fragments, the geometric stages, the attacks, soft decoding
 pipeline/      the campaigns that build the performance database
 inputs/        the measured database the solver reads
+tools/         fetching the models, which are not redistributed
 ```
 
 `inputs/surrogate_canonical.json` is the database: 60 recovery curves over
@@ -160,9 +182,9 @@ curves for the geometric stages, the per-image scores behind every mean, and the
 distortion, latency and capacity entries. `inputs/requests.json` holds the 7,321
 requests the paper evaluates, each one the four inputs above.
 
-The image pool and the model checkpoints are not redistributed here. The first
-is rebuilt by `pipeline/build_wm_dataset.py`; the second come from the upstream
-projects.
+The image pool and the models are not redistributed here. The pool is rebuilt by
+`pipeline/build_wm_dataset.py` and the models arrive through
+`tools/fetch_models.py`, as **Models** above describes.
 
 ## License
 

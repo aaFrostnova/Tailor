@@ -1,9 +1,17 @@
 """Freeze the same requests under the analytic unified-BA acceptance protocol."""
+import os
 from pathlib import Path
+import sys
+
 from rigor_protocol import ROOT, SC, SOURCE, atomic, digest, read, validate_splits
 
-PREVIOUS = SC / 'rigor_editing_only_20260911'
-CF = Path('/data/tailor/project')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src.paths import PROJECT
+
+CF = Path(PROJECT)
+# The campaign revision this one carries its frozen request sets forward from. A first
+# campaign has none and enumerates them.
+PREVIOUS = Path(os.environ.get('TAILOR_PREVIOUS_CAMPAIGN', ''))
 CLASSES = ('C1', 'C2', 'C3', 'C4', 'C5')
 ARMS = ('04', '06')
 NFPA = 'nfpa_sd21_xy40_s10_v1'

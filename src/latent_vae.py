@@ -15,12 +15,11 @@ import numpy as np
 import torch
 from PIL import Image
 
-# Local SD checkpoints (VAE is the `vae` subfolder).
-SD_PATHS = {
-    "sd15": "/data/tailor/assets/model/stable-diffusion-v1-5",
-    "sd21": "/data/tailor/assets/model/stable-diffusion-2-1-base",
-    "sd14": "/data/tailor/assets/model/stable-diffusion-v1-4",
-}
+# The VAE is the `vae` subfolder of a Stable Diffusion repository; src/paths.py
+# decides which one, and "sd21" here is the base variant the VAE attacks were measured on.
+from src.paths import SD as _SD
+
+SD_PATHS = {"sd15": _SD["sd15"], "sd21": _SD["sd21_base"], "sd14": _SD["sd14"]}
 
 
 class LatentVAE:

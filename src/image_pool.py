@@ -14,7 +14,8 @@ can ask for disjoint slices and know they do not overlap.
 """
 import glob, os
 
-POOL = "/data/tailor/workspace/wm_dataset10k/pool"
+from src.paths import POOL
+
 # the proportions the reported evaluation subset uses: A/B/C real+generated, D DALL-E 3, E high-res real
 COMPOSITION = {"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.15, "E": 0.10}
 

@@ -21,9 +21,9 @@ Writes request_feasibility_matrix.json, read by class_defs.py. Regenerate after 
 """
 import json, sys, os, math, subprocess
 import numpy as np
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-sys.path.insert(0, f"{CF}/scripts/defense")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC
+sys.path.insert(0, f"{CF}/solver")
 import watermark_smt_v2 as W
 sg = json.load(open(f"{SC}/surrogate_canonical.json")); base, fe, pi, D = sg["base"], sg["frontend"], sg["perimage"], sg["d"]
 FR = ["VINE", "TrustMark", "VideoSeal"]; A = sg["attacks"]

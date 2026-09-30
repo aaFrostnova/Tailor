@@ -18,8 +18,10 @@ import sys
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parents[1]
-EXT = Path('/data/tailor/workspace/wm_dataset10k/attack_extension_nfpa_edit_20260911')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src.paths import RUN_ROOT, WORKSPACE
+ROOT = Path(RUN_ROOT)
+EXT = Path(WORKSPACE) / 'attack_extension'
 PLAN_SCHEMA = 'unified_ba_combination_plan_v1'
 OBS_SCHEMA = 'unified_ba_combination_observation_v1'
 FRAGMENTS = ('VINE', 'TrustMark', 'VideoSeal')

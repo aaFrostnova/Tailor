@@ -7,12 +7,12 @@ the model as if it were a shift. It is measurable -- the pool is built from five
 the spread of per-source means IS the quantity, with the within-source standard error subtracted off so
 that sampling noise is not counted twice.
 """
-import sys, glob, json
+import sys, glob, json, os
 import numpy as np
 from PIL import Image
-CF = "/data/tailor/project"
-SC = "/data/tailor/workspace/wm_dataset10k"
-for p in (CF, f"{CF}/scripts", f"{CF}/scripts/defense", f"{CF}/external/WatermarkAttacker"):
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.paths import PROJECT as CF, WORKSPACE as SC, WMATTACKER_REPO as WMA
+for p in (CF, f"{CF}/solver", WMA):
     sys.path.insert(0, p)
 from src.vine_crypto_wrapper import VineCryptoWrapper
 from src.trustmark_fragment import TrustMarkFragment
