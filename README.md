@@ -208,11 +208,14 @@ python tools/smoke_test.py                    # 19 tests, ~15 s
 python measurement/test_unified_detector.py   # 19 tests, ~1 s
 ```
 
-`smoke_test.py` checks the database's shape, the bit accuracy derived from each
-budget against the derivation the deployment uses, the answers shown above, that
-every attack listed here is accepted and anything else refused, and that no
-default location points outside the checkout. `test_unified_detector.py` checks
-the tiled decoder's preprocessing against the same-window raw route.
+`smoke_test.py` checks the database against the shape described above, the bit
+accuracy each budget derives against the derivation the deployment uses, the
+answers shown above, that every attack listed above is accepted and anything else
+refused, and that no default location points outside the checkout.
+`test_unified_detector.py` checks the verification rule: the threshold exact to
+the integer at each alpha, the false-positive budget split across the front-ends
+and the geometric stages, the attempt counts those stages are held to, and the
+tie and non-finite cases.
 
 ## License
 
