@@ -93,16 +93,6 @@ def build_attack_one(dev):
         raise ValueError(a)
     return attack_one
 
-def _wbench(what):
-    """W-Bench's editing operators and its baseline method registry are not part of this
-    release: the operators need W-Bench's own edit instructions and masks, which are its
-    data rather than this repository's code. Say so where they are reached."""
-    raise ModuleNotFoundError(
-        f"{what} comes from W-Bench, which this release does not include. Every other "
-        f"attack and every fragment runs without it; the README says which entry points "
-        f"this affects.")
-
-
 # ---------------- in-env advanced attacks (editing / img2video), PIL -> list[PIL] ----------------
 _ADV_PIPES = {}
 ADV_ATTACKS = {"editing", "img2video"}
@@ -112,9 +102,12 @@ def is_adv(a):
 def apply_adv(a, pil, idx, dev="cuda"):
     """In-env advanced attack. Returns a LIST of attacked PILs (14 frames for img2video)."""
     if a == "editing":                                   # W-Bench global editing (InstructPix2Pix)
-        _wbench("the global editing attack")
+        from wbench.editing import global_edit
+        return [global_edit(pil, dev, idx=idx)]
     if a.startswith("local_edit"):                       # local_edit<frac> (masked img2img)
-        _wbench("the local editing attack")
+        from wbench.editing import local_edit
+        frac = float(a.split("_")[2]) / 100.0 if a.count("_") >= 2 else 0.5
+        return [local_edit(pil, dev, frac=frac)]
     if a == "img2video":                                 # Stable Video Diffusion, 14 frames
         if "svd" not in _ADV_PIPES:
             from diffusers import StableVideoDiffusionPipeline
@@ -151,21 +144,24 @@ class OursComposite:
 
     DEFAULT_STRENGTH = {"vine": 1.0, "trustmark": 1.0, "videoseal": 1.0}
 
-    def __init__(self, dev, tm_variant="B", geo=False, vine_variant="R", config=None):
+    def __init__(self, dev, tm_variant="B", geo=False, vine_variant="R", config=None, master_key=None):
         """`config` is the solver's output c=(S, pi, s, r, nu), as
         {"frags": [...], "order": [...], "strengths": {f: float}, "resync": bool, "nested": bool}.
         When it is None the class falls back to the pinned reference point, which is a fixed operating
-        point for the M1 comparison and NOT what the method returns for a request."""
+        point for the M1 comparison and NOT what the method returns for a request.
+        `master_key` defaults to the evaluation key KEY, which every experiment used and which is
+        public with this code. Releasing images needs a secret key: see solver/deployment.py."""
         from src.shortened_bch import ShortenedBCH
         from src.vine_crypto_wrapper import VineCryptoWrapper
         from src.trustmark_fragment import TrustMarkFragment
         from src.videoseal_fragment import VideoSealFragment
+        key = KEY if master_key is None else bytes(master_key)
         self.sb = ShortenedBCH(); self.tau = float(binom.ppf(0.99, self.sb.n, 0.5) + 1) / self.sb.n
         self.dev = dev
         self.frag = {
-            "vine": VineCryptoWrapper(master_key=KEY, method_name="vine", n_bits=self.sb.n, device=dev, variant=vine_variant),
-            "trustmark": TrustMarkFragment(master_key=KEY, method_name="trustmark", n_bits=self.sb.n, model_type=tm_variant, device=dev),
-            "videoseal": VideoSealFragment(master_key=KEY, method_name="videoseal", n_bits=self.sb.n, device=dev),
+            "vine": VineCryptoWrapper(master_key=key, method_name="vine", n_bits=self.sb.n, device=dev, variant=vine_variant),
+            "trustmark": TrustMarkFragment(master_key=key, method_name="trustmark", n_bits=self.sb.n, model_type=tm_variant, device=dev),
+            "videoseal": VideoSealFragment(master_key=key, method_name="videoseal", n_bits=self.sb.n, device=dev),
         }
         self.name = f"Ours{'-B' if vine_variant == 'B' else ''}"   # VINE-B variant = higher-PSNR fragment option
         cfg = config or {}
@@ -217,12 +213,23 @@ class OursComposite:
             self._rr, self._rs, self._vss, self._bc, self._bg = 180.0, 3.0, 0.005, 10.0, 0.60  # geo search params
 
     def secret_for(self, idx):
-        image_id = f"img_{idx:05d}"; tx = self.sb.encode(_id_payload(image_id, self.sb.data_bits))
+        """Calibration identity of image `idx`. Characterization, calibration and every evaluation embed
+        under these img_<n> identities only; solver/deployment.py refuses them for released images."""
+        return self.secret_for_identity(f"img_{idx:05d}")
+
+    def secret_for_identity(self, image_id):
+        tx = self.sb.encode(_id_payload(image_id, self.sb.data_bits))
         return (image_id, tx)
 
     def embed(self, pil, idx):
+        return self._embed_secret(pil, self.secret_for(idx))
+
+    def _embed_secret(self, pil, secret):
+        """Embedding under an explicit (identity, codeword). Evaluation reaches it through embed(), which
+        fixes a calibration identity; a release reaches it through deployment.Deployment.embed(), which
+        checks the identity first. Nothing else should call it."""
         from src.vine_crypto_wrapper import apply_crypto
-        image_id, tx = self.secret_for(idx)
+        image_id, tx = secret
         img = pil.resize((512, 512)) if pil.size != (512, 512) else pil
         for name in self.order:                               # subset AND order come from the config
             m = self.frag[name]; perm, M = m.get_perm_M(image_id)
@@ -481,7 +488,10 @@ def build_method(name, dev, tm_variant, geo=False, config=None):
         return OursComposite(dev, tm_variant, geo=geo, vine_variant="R", config=config)
     if name == "ours_b":                                   # Ours with the higher-PSNR VINE-B fragment
         return OursComposite(dev, tm_variant, geo=geo, vine_variant="B", config=config)
-    _wbench(f"the baseline method {name!r}")
+    from wbench.methods import build_methods
+    reg = build_methods([name], dev)
+    if name not in reg: raise RuntimeError(f"method {name} failed to load")
+    return BaselineMethod(reg[name])
 
 def main():
     p = argparse.ArgumentParser()

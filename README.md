@@ -66,6 +66,9 @@ The Stable Diffusion repository is gated. Accept the terms on its model page and
 run `hf auth login`, or set `TAILOR_SD21` to a local copy. The `vaeB` and `vaeC`
 attacks need no model here: compressai fetches its own.
 
+The image-editing attack (`editing_ip2p_s20_v1`, in `wbench/editing.py`) loads
+InstructPix2Pix (`timbrooks/instruct-pix2pix`) through diffusers on first use.
+
 Place these two yourself. `--check` prints the path each one goes to:
 
 | Component | Used for | File |
@@ -167,6 +170,28 @@ python solver/live_topk_full.py patch     <class> <shard> <n>    # re-solve what
 resumes and a configuration measured once serves every later request that picks
 it.
 
+## Releasing images
+
+Calibration and every evaluation embed under the identities `img_<n>` and under
+the evaluation key in `solver/eval_matrix.py`, which is public with this code.
+Both are reserved for that purpose. Released images go through
+`solver/deployment.py`, which takes a secret key and identities of the form
+`dep:<name>` and refuses `img_<n>`. The false-positive bound holds for a
+configuration that live calibration selected adaptively only under identities
+that calibration never used, and this keeps the two apart.
+
+```bash
+python solver/deployment.py keygen > tailor.key        # 32 random bytes, in hex
+export TAILOR_MASTER_KEY_FILE=tailor.key
+python solver/deployment.py embed  --config cfg.json --identity dep:alice in.png out.png
+python solver/deployment.py verify --config cfg.json --identity dep:alice --alpha 1e-6 out.png
+```
+
+`cfg.json` is the configuration the solver returned, and `--alpha` is the
+request's false-positive budget. `python solver/test_deployment.py` checks the
+identity and key rules and that evaluation embedding is unchanged, without
+loading a model.
+
 ## Measuring your own fragments
 
 To characterize a different fragment library, rebuild the database:
@@ -180,16 +205,26 @@ python pipeline/fit_surrogate_curves.py                            # knots to cu
 python pipeline/make_canonical_surrogate.py                        # -> inputs/surrogate_canonical.json
 ```
 
+## The paper's experiments
+
+`experiments/` holds code of the paper's experiments on the 7,321-request
+benchmark, as it ran: the measurement campaign behind the main comparison, the
+ablations, the follow-up runs and the appendix analyses. No result is included.
+`experiments/README.md` says which folder produced what and which environment
+variables replace the locations of the machine they ran on.
+
 ## Repository layout
 
 ```
 scripts/       the drivers for the two attacks that need their own environment
-solver/        the SMT model, the request protocol, the live-calibration loop
+solver/        the SMT model, the request protocol, the live-calibration loop, deployment
 measurement/   the verification rule, the FPR accounting, the measurement harness
 src/           the fragments, the geometric stages, the attacks, soft decoding
 pipeline/      the campaigns that build the database
 inputs/        the measured database the solver reads
 tools/         fetching the models
+wbench/        the image-editing attack and the baseline watermark wrappers
+experiments/   the code of the paper's experiments, without results
 ```
 
 `inputs/surrogate_canonical.json` is the database: 60 recovery curves over
@@ -202,3 +237,13 @@ the 7,321 requests the paper evaluates.
 
 MIT, see `LICENSE`. The fragments and the attack models are under their own
 projects' licenses.
+
+## Citation
+
+```bibtex
+@misc{tailor2026,
+  title  = {Made to Measure: Designing Image Watermarks to Specification},
+  author = {Anonymous},
+  year   = {2026}
+}
+```

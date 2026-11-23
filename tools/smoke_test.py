@@ -56,8 +56,8 @@ class Database(unittest.TestCase):
 
     def test_the_editing_attack_is_the_one_column_with_no_curve(self):
         """The evaluated requests name one attack the bundled database has no curve for, the
-        W-Bench editing operator that is not part of this release. Nothing else is missing,
-        so the gap is exactly that one column and the release says so."""
+        image-editing attack (wbench/editing.py), which was measured live only. Nothing else
+        is missing, so the gap is exactly that one column."""
         with open(os.path.join(ROOT, "inputs", "requests.json")) as f:
             bundle = json.load(f)
         requested = set()
