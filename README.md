@@ -241,10 +241,10 @@ projects' licenses.
 ## Citation
 
 ```bibtex
-@misc{tailor2026,
-  title  = {Made to Measure: Designing Image Watermarks to Specification},
-  author = {Li, Mingzhe and Peng, Yuefeng and Xia, Kejing and Jeyakumar, Pranav
-            and Famularo, Ruolan Leslie and Ma, Shiqing},
-  year   = {2026}
+@article{li2026made,
+  title={Made to Measure: Designing Image Watermarks to Specification},
+  author={Li, Mingzhe and Peng, Yuefeng and Xia, Kejing and Jeyakumar, Pranav and Famularo, Ruolan Leslie and Ma, Shiqing},
+  journal={arXiv preprint arXiv:2610.00780},
+  year={2026}
 }
 ```
