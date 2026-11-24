@@ -243,7 +243,8 @@ projects' licenses.
 ```bibtex
 @misc{tailor2026,
   title  = {Made to Measure: Designing Image Watermarks to Specification},
-  author = {Anonymous},
+  author = {Li, Mingzhe and Peng, Yuefeng and Xia, Kejing and Jeyakumar, Pranav
+            and Famularo, Ruolan Leslie and Ma, Shiqing},
   year   = {2026}
 }
 ```

@@ -8,5 +8,16 @@ abstract: >-
   or reports that the library cannot. Configuration selection is an SMT problem over a
   measured database of attack coverage, distortion and runtime.
 authors:
-  - name: "Anonymous"
+  - family-names: "Li"
+    given-names: "Mingzhe"
+  - family-names: "Peng"
+    given-names: "Yuefeng"
+  - family-names: "Xia"
+    given-names: "Kejing"
+  - family-names: "Jeyakumar"
+    given-names: "Pranav"
+  - family-names: "Famularo"
+    given-names: "Ruolan Leslie"
+  - family-names: "Ma"
+    given-names: "Shiqing"
 license: MIT
